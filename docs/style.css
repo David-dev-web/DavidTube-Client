@@ -6,7 +6,7 @@
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
     --accent-hover: #25d366;
-    --border-color: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.1 );
 }
 
 body {
@@ -117,16 +117,16 @@ body {
     color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto 40px auto;
-    min-height: 58px; /* Verhindert, dass der Button beim Tippen springt */
+    min-height: 58px;
 }
 
-/* === NEU: TYPEWRITER-EFFEKT === */
-#typewriter-subtitle {
+/* === TYPEWRITER-EFFEKT === */
+#typewriter-subtitle, .typewriter-answer {
     position: relative; 
 }
 
-/* Der blinkende Cursor (wird nur angezeigt, wenn die Klasse 'typing' vorhanden ist) */
-#typewriter-subtitle.typing::after {
+#typewriter-subtitle.typing::after,
+.typewriter-answer.typing::after {
     content: '|';
     position: absolute;
     bottom: 0;
@@ -136,7 +136,6 @@ body {
     animation: blink 1s infinite;
 }
 
-/* Die Blink-Animation */
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
@@ -305,7 +304,6 @@ footer p {
     transform: translateY(40px);
     will-change: opacity, transform;
 }
-/* Die Unterüberschrift wird jetzt vom Typewriter gesteuert, nicht mehr vom Observer */
 .hero-subtitle {
     opacity: 1;
 }
@@ -339,7 +337,7 @@ footer p {
     }
     .hero-subtitle {
         font-size: 1em;
-        min-height: 80px; /* Etwas mehr Platz auf kleinen Bildschirmen */
+        min-height: 80px;
     }
     .cta-button {
         padding: 12px 30px;
