@@ -1,9 +1,12 @@
+/* === GRUNDEINSTELLUNGEN & VARIABLEN === */
 :root {
     --bg-color: #000000;
+    --surface-color: #121212;
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954; /* Das bekannte Grün */
-    --surface-color: #121212;
+    --accent-hover: #25d366;
+    --border-color: rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -12,18 +15,40 @@ body {
     color: var(--text-primary);
     margin: 0;
     line-height: 1.6;
+    overflow-x: hidden; /* Verhindert horizontales Scrollen */
 }
 
+/* === INTERAKTIVER MAUS-SPOTLIGHT-EFFEKT === */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(45, 212, 102, 0.15),
+        transparent 40%
+    );
+    z-index: -1;
+    pointer-events: none; /* Wichtig, damit man die Seite noch bedienen kann */
+}
+
+
+/* === LAYOUT & CONTAINER === */
 .container {
     max-width: 960px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
+/* === HERO-BEREICH (OBEN) === */
 .hero {
-    background: linear-gradient(180deg, rgba(24, 24, 24, 0.8) 0%, var(--bg-color) 100%);
-    padding: 80px 0;
+    padding: 100px 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .logo {
@@ -31,13 +56,22 @@ body {
     font-weight: 700;
     margin-bottom: 40px;
     color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .hero-title {
-    font-size: 3.5em;
+    font-size: 4em; /* Größer für mehr Wucht */
     font-weight: 900;
     margin-bottom: 20px;
     line-height: 1.1;
+    /* Cooler Farbverlauf für den Text */
+    background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
 }
 
 .hero-subtitle {
@@ -50,18 +84,20 @@ body {
 .cta-button {
     display: inline-block;
     background-color: var(--accent-color);
-    color: var(--text-primary);
+    color: #000; /* Besserer Kontrast */
     font-size: 1.1em;
     font-weight: 700;
     text-decoration: none;
     padding: 15px 40px;
     border-radius: 50px;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease;
+    box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
 .cta-button:hover {
-    transform: scale(1.05);
-    background-color: #25d366;
+    transform: scale(1.05) translateY(-3px);
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 30px rgba(37, 211, 102, 0.6);
 }
 
 .version-info {
@@ -70,35 +106,76 @@ body {
     color: #666;
 }
 
+/* === FEATURES-BEREICH === */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
-    padding: 80px 0;
-    text-align: center;
+    padding: 100px 0;
+}
+
+.feature-item {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    
+    /* Animations-Setup für Scroll-Reveal */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: reveal 0.8s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation-play-state: paused; /* Animation startet erst, wenn sie sichtbar wird */
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .feature-item h3 {
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .feature-item p {
     color: var(--text-secondary);
 }
 
+/* === FOOTER === */
 footer {
     text-align: center;
-    padding: 40px 0;
-    border-top: 1px solid #222;
+    padding: 50px 0;
+    border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
 }
 
 .footer-link {
     color: var(--accent-color);
     text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
 }
 
 .footer-link:hover {
+    color: var(--accent-hover);
     text-decoration: underline;
+}
+
+/* === KEYFRAME-ANIMATIONEN === */
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
