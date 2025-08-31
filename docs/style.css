@@ -6,7 +6,7 @@
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
     --accent-hover: #25d366;
-    --border-color: rgba(255, 255, 255, 0.1 );
+    --border-color: rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -66,6 +66,15 @@ body {
 .hero {
     padding: 80px 0 120px 0;
     text-align: center;
+}
+
+/* HIER IST DIE ÄNDERUNG: Styling für den Logo-Link */
+.logo-link {
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+.logo-link:hover {
+    transform: scale(1.05);
 }
 
 .logo {
@@ -188,7 +197,7 @@ body {
 .morph-button:hover .button-text {
     opacity: 1;
     transform: scale(1);
-    transition-delay: 0.1s; /* Kleiner Delay, damit der Text erst erscheint, wenn der Button schon wächst */
+    transition-delay: 0.1s;
 }
 .morph-button:hover .button-icon {
     opacity: 0;
@@ -381,6 +390,8 @@ footer p {
         font-size: 1em;
     }
 }
+
+/* HIER IST DIE ÄNDERUNG: Optimierung für Touch-Geräte */
 @media (hover: none) {
     .cursor-dot {
         display: none;
@@ -388,15 +399,19 @@ footer p {
     body {
         cursor: auto;
     }
-    /* Auf Touch-Geräten macht der Morph-Effekt keinen Sinn, also stellen wir sicher, dass der Text immer sichtbar ist */
-    .morph-button {
-        width: auto;
-        padding: 0 20px;
+    /* Zeigt den Button immer in voller Breite an, wenn kein Hover möglich ist */
+    .nav-button {
+        width: 120px;
+    }
+    .cta-button {
+        width: 250px;
     }
     .button-text {
         opacity: 1;
+        transform: scale(1);
     }
     .button-icon {
-        display: none;
+        display: none; /* Icon komplett ausblenden */
     }
 }
+
