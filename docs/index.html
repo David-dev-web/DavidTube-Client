@@ -11,6 +11,9 @@
 </head>
 <body>
 
+    <!-- Partikel-Hintergrund -->
+    <div id="particles-js"></div>
+
     <header class="hero">
         <div class="container">
             <div class="logo">🚀 DavidTube</div>
@@ -47,29 +50,9 @@
         </div>
     </footer>
 
-    <!-- === JAVASCRIPT FÜR DIE MAGIE === -->
-    <script>
-        // Interaktiver Maus-Effekt
-        document.body.addEventListener('mousemove', e => {
-            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px' );
-            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
-        });
-
-        // Scroll-Reveal-Animation
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, {
-            threshold: 0.5 // Animation startet, wenn 50% des Elements sichtbar sind
-        });
-
-        document.querySelectorAll('.feature-item').forEach(item => {
-            observer.observe(item);
-        });
-    </script>
+    <!-- JavaScript für die Magie -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
