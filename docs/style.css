@@ -1,7 +1,7 @@
 /* === GRUNDEINSTELLUNGEN & VARIABLEN === */
 :root {
     --bg-color: #000000;
-    --surface-color: #121212; /* Zurück zum soliden dunklen Grau */
+    --surface-color: #121212;
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
@@ -16,11 +16,10 @@ body {
     margin: 0;
     line-height: 1.6;
     overflow-x: hidden;
-    /* NEU: Wir verstecken den Standard-Cursor */
     cursor: none;
 }
 
-/* === NEU: CURSOR-FOLLOWER === */
+/* === CURSOR-FOLLOWER (unverändert) === */
 .cursor-dot {
     width: 30px;
     height: 30px;
@@ -30,13 +29,11 @@ body {
     top: 0;
     left: 0;
     transform: translate(-50%, -50%);
-    pointer-events: none; /* Sorgt dafür, dass man durch den Punkt klicken kann */
+    pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference; /* Cooler Effekt, der die Farben umkehrt */
-    transition: transform 0.2s ease-out; /* Macht die Bewegung weicher */
+    mix-blend-mode: difference;
+    transition: transform 0.2s ease-out;
 }
-
-/* Vergrößert den Punkt, wenn man über Links/Buttons fährt */
 .cursor-dot.hover {
     transform: translate(-50%, -50%) scale(1.5);
 }
@@ -48,10 +45,22 @@ body {
     padding: 0 20px;
 }
 
-/* === HERO-BEREICH (OBEN) === */
+/* === HERO-BEREICH & SMART HEADER === */
 .hero {
     padding: 120px 0;
     text-align: center;
+    /* NEU: Smart Header Logik */
+    position: sticky; /* Macht den Header "anheftbar" */
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Leicht durchsichtiger Hintergrund für den Sticky-Zustand */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    transition: transform 0.4s ease-out;
+}
+/* NEU: Klasse, die den Header versteckt */
+.hero.hidden {
+    transform: translateY(-100%);
 }
 
 .logo {
@@ -69,11 +78,21 @@ body {
     font-weight: 900;
     margin-bottom: 20px;
     line-height: 1.1;
-    background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
+    background: linear-gradient(90deg, var(--accent-color), var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
+    /* NEU: Animierte Überschrift */
+    background-size: 200% auto;
+    animation: gradient-shine 5s linear infinite;
+}
+
+/* NEU: Keyframe-Animation für die Überschrift */
+@keyframes gradient-shine {
+    to {
+        background-position: 200% center;
+    }
 }
 
 .hero-subtitle {
@@ -95,20 +114,18 @@ body {
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
-
 .cta-button:hover {
     transform: scale(1.05) translateY(-3px);
     background-color: var(--accent-hover);
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
-
 .version-info {
     margin-top: 20px;
     font-size: 0.9em;
     color: #666;
 }
 
-/* === FEATURES-BEREICH === */
+/* === FEATURES-BEREICH (unverändert) === */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -116,7 +133,6 @@ body {
     padding: 100px 0;
     perspective: 1000px;
 }
-
 .feature-item {
     background-color: var(--surface-color);
     padding: 40px;
@@ -125,13 +141,11 @@ body {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
     will-change: transform;
 }
-
 .feature-item:hover {
     transform: rotateX(10deg) rotateY(-5deg) scale(1.05);
     border-color: var(--accent-color);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
-
 .feature-item h3 {
     font-size: 1.5em;
     margin-top: 0;
@@ -141,18 +155,55 @@ body {
     align-items: center;
     gap: 10px;
 }
-
 .feature-item p {
     color: var(--text-secondary);
 }
 
-/* === NEU: FAQ-SEKTION === */
+/* === NEU: SCREENSHOT-GALERIE === */
+.gallery {
+    padding: 50px 0;
+    text-align: center;
+}
+.gallery-main-image {
+    margin-bottom: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+.gallery-main-image img {
+    width: 100%;
+    display: block;
+    transition: opacity 0.3s ease-in-out;
+}
+.gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.thumbnail {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+    cursor: none;
+}
+.thumbnail:hover {
+    opacity: 1;
+}
+.thumbnail.active {
+    opacity: 1;
+    border-color: var(--accent-color);
+}
+
+/* === FAQ-SEKTION (unverändert) === */
 .faq {
     padding: 50px 0 100px 0;
     max-width: 760px;
     margin: 0 auto;
 }
-
 .section-title {
     text-align: center;
     font-size: 2.5em;
@@ -160,11 +211,9 @@ body {
     margin-bottom: 50px;
     color: var(--text-primary);
 }
-
 .faq-item {
     border-bottom: 1px solid var(--border-color);
 }
-
 .faq-question {
     width: 100%;
     background: none;
@@ -177,19 +226,16 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: none; /* Wichtig, da wir unseren eigenen Cursor haben */
+    cursor: none;
 }
-
 .faq-icon {
     font-size: 1.5em;
     font-weight: 400;
     transition: transform 0.3s ease;
 }
-
 .faq-item.active .faq-icon {
     transform: rotate(45deg);
 }
-
 .faq-answer {
     max-height: 0;
     overflow: hidden;
@@ -197,43 +243,38 @@ body {
     color: var(--text-secondary);
     font-size: 1.1em;
 }
-
 .faq-answer p {
     margin: 0;
     padding: 0 0 25px 0;
 }
 
-/* === FOOTER === */
+/* === FOOTER (unverändert) === */
 footer {
     text-align: center;
     padding: 50px 0;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
 }
-
 footer p {
     margin: 0 0 10px 0;
 }
-
 .footer-link {
     color: var(--accent-color);
     text-decoration: none;
     font-weight: 700;
     transition: color 0.2s ease;
 }
-
 .footer-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
 }
 
 /* === SCROLL-REVEAL-ANIMATIONEN === */
-.hero-title, .hero-subtitle, .cta-button, .feature-item, .faq-item {
+.hero-title, .hero-subtitle, .cta-button, .feature-item, .gallery, .faq-item {
     opacity: 0;
     transform: translateY(40px);
     will-change: opacity, transform;
 }
-
 .is-visible {
     opacity: 1;
     transform: translateY(0);
