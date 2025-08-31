@@ -208,6 +208,14 @@ body {
     font-weight: 900;
     margin-bottom: 50px;
     color: var(--text-primary);
+/* === NEU: TEXT-ANIMATION === */
+.animate-title .char {
+    display: inline-block; /* Wichtig, damit wir die Buchstaben transformieren können */
+    opacity: 0;
+    transform: translateY(50px ) scale(0.5);
+    will-change: opacity, transform;
+}
+
 }
 .faq-item {
     border-bottom: 1px solid var(--border-color);
