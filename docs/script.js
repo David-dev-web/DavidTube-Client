@@ -1,6 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ================================= //
+    // --- SOFORT AUSGEFÜHRTE SKRIPTE ---
+    // ================================= //
+
+    // --- CURSOR-FOLLOWER LOGIK (JETZT HIER, WIRD SOFORT GESTARTET) ---
+    const cursorDot = document.querySelector('.cursor-dot');
+    // Wichtig: Wir müssen den Enter-Button hier hinzufügen, damit der Hover-Effekt auch auf dem Preloader funktioniert
+    const hoverables = document.querySelectorAll('a, button, .gallery-item img, .preloader-button');
+    
+    const moveCursor = (e) => {
+        // Stellt sicher, dass der Cursor-Punkt existiert, bevor wir ihn bewegen
+        if (cursorDot) {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+        }
+    };
+    window.addEventListener('mousemove', moveCursor);
+
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+    });
+
+
+    // ================================= //
     // --- PRELOADER LOGIK ---
     // ================================= //
     const preloader = document.querySelector('.preloader');
@@ -17,18 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listener für den "Entdecken"-Button
-    enterButton.addEventListener('click', () => {
-        // Versteckt den Preloader
-        preloader.classList.add('hidden');
-        
-        // Initialisiert die Hauptseite nach einer kurzen Verzögerung,
-        // damit die Ausblend-Animation des Preloaders flüssig ist.
-        setTimeout(initMainPage, 500);
-    });
+    if (enterButton) {
+        enterButton.addEventListener('click', () => {
+            // Versteckt den Preloader
+            preloader.classList.add('hidden');
+            
+            // Initialisiert die Hauptseite nach einer kurzen Verzögerung
+            setTimeout(initMainPage, 500);
+        });
+    }
 
 
     // ================================= //
-    // --- HAUPTSEITEN-SKRIPTE ---
+    // --- HAUPTSEITEN-SKRIPTE (STARTEN ERST NACH KLICK) ---
     // ================================= //
     function startMainPageScripts() {
         
@@ -69,19 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             typewriterSubtitle.dataset.text = "Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.";
             setTimeout(() => startTypewriter(typewriterSubtitle, 80), 800);
         }
-
-        // --- CURSOR-FOLLOWER LOGIK ---
-        const cursorDot = document.querySelector('.cursor-dot');
-        const hoverables = document.querySelectorAll('a, button, .gallery-item img, .preloader-button');
-        const moveCursor = (e) => {
-            cursorDot.style.left = `${e.clientX}px`;
-            cursorDot.style.top = `${e.clientY}px`;
-        };
-        window.addEventListener('mousemove', moveCursor);
-        hoverables.forEach(el => {
-            el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
-        });
 
         // --- SMART HEADER LOGIK ---
         const nav = document.querySelector('.main-nav');
