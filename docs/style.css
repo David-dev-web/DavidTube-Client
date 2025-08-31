@@ -6,7 +6,7 @@
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
     --accent-hover: #25d366;
-    --border-color: rgba(255, 255, 255, 0.1 );
+    --border-color: rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -126,7 +126,7 @@ body {
     50% { opacity: 0; }
 }
 
-/* === NEU: MORPHING BUTTONS === */
+/* === NEU: REVERSE MORPHING BUTTONS === */
 .morph-button {
     display: inline-flex;
     align-items: center;
@@ -140,45 +140,57 @@ body {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+/* Startzustand: Kreis */
 .nav-button {
     height: 40px;
-    width: 120px;
+    width: 40px; /* Kreis */
     font-size: 0.9em;
 }
 .cta-button {
     height: 54px;
-    width: 250px;
+    width: 54px; /* Kreis */
     font-size: 1.1em;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
-.button-text, .button-icon {
+
+/* Startzustand: Text unsichtbar, Icon sichtbar */
+.button-text {
     position: absolute;
+    opacity: 0;
+    transform: translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .button-icon {
-    opacity: 0;
-    transform: translateY(10px);
+    position: absolute;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .button-icon svg {
     stroke: #000;
 }
+
+/* Hover-Zustand: Rechteck */
 .morph-button:hover {
     background-color: var(--accent-hover);
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
 .nav-button:hover {
-    width: 40px; /* Wird zum Kreis */
+    width: 120px; /* Wird zum Rechteck */
 }
 .cta-button:hover {
-    width: 54px; /* Wird zum Kreis */
+    width: 250px; /* Wird zum Rechteck */
 }
+
+/* Hover-Zustand: Text sichtbar, Icon unsichtbar */
 .morph-button:hover .button-text {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-.morph-button:hover .button-icon {
     opacity: 1;
     transform: translateY(0);
+}
+.morph-button:hover .button-icon {
+    opacity: 0;
+    transform: translateY(-10px);
 }
 
 .version-info {
@@ -374,14 +386,15 @@ footer p {
     body {
         cursor: auto;
     }
-    /* Auf Touch-Geräten macht der Morph-Effekt keinen Sinn, also deaktivieren wir ihn */
-    .morph-button:hover {
+    /* Auf Touch-Geräten macht der Morph-Effekt keinen Sinn, also stellen wir sicher, dass der Text immer sichtbar ist */
+    .morph-button {
         width: auto;
+        padding: 0 20px;
     }
-    .morph-button:hover .button-text {
+    .button-text {
         opacity: 1;
     }
-    .morph-button:hover .button-icon {
-        opacity: 0;
+    .button-icon {
+        display: none;
     }
 }
