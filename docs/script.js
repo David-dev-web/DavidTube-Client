@@ -1,27 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- WIEDERVERWENDBARE TYPEWRITER-FUNKTION ---
-    function startTypewriter(element, onComplete) {
-        if (!element || element.hasAttribute('data-typed')) {
-            if(onComplete) onComplete();
+    // --- WIEDERVERWENDBARE TYPEWRITER-FUNKTION (FINALE VERSION) ---
+    function startTypewriter(element, speed, onComplete) {
+        // Wenn kein Element da ist, sofort abbrechen
+        if (!element) {
+            if (onComplete) onComplete();
             return;
         }
 
         const textToType = element.dataset.text || element.textContent;
-        element.textContent = '';
-        element.setAttribute('data-typed', 'true');
         let charIndex = 0;
+
+        // Setzt den Text sofort, wenn er schon mal getippt wurde
+        if (element.hasAttribute('data-typed')) {
+            element.textContent = textToType;
+            if (onComplete) onComplete();
+            return;
+        }
+
+        // Startet den Tipp-Vorgang
+        element.textContent = ''; // Leert den Inhalt für den Start
+        element.setAttribute('data-typed', 'true'); // Markiert als "wird jetzt getippt"
 
         function type() {
             if (charIndex < textToType.length) {
                 element.textContent += textToType.charAt(charIndex);
                 charIndex++;
-                setTimeout(type, 20); // Etwas schnellere Tipp-Geschwindigkeit
+                setTimeout(type, speed); // Nutzt die übergebene Geschwindigkeit
             } else {
+                // Wenn fertig, Cursor entfernen
                 setTimeout(() => {
                     element.classList.remove('typing');
                 }, 1000);
-                if (onComplete) onComplete(); // Ruft die Callback-Funktion auf, wenn fertig
+                // Callback aufrufen, falls vorhanden
+                if (onComplete) onComplete();
             }
         }
         element.classList.add('typing');
@@ -32,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const typewriterSubtitle = document.getElementById('typewriter-subtitle');
     if (typewriterSubtitle) {
         typewriterSubtitle.dataset.text = "Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.";
-        setTimeout(() => startTypewriter(typewriterSubtitle), 800);
+        // Startet mit einer Geschwindigkeit von 80ms pro Buchstabe
+        setTimeout(() => startTypewriter(typewriterSubtitle, 80), 800);
     }
 
     // --- CURSOR-FOLLOWER LOGIK ---
@@ -65,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollY = window.scrollY;
     });
 
-    // --- FAQ-AKKORDEON LOGIK (KORRIGIERTE VERSION) ---
+    // --- FAQ-AKKORDEON LOGIK (FINALE VERSION) ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
@@ -76,21 +89,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = item.classList.contains('active');
 
             if (!isActive) {
-                // Erst den Text setzen (unsichtbar), um die Höhe zu messen
-                if (!answerP.hasAttribute('data-typed')) {
+                // Setzt den Text temporär, um die volle Höhe zu messen
+                const wasAlreadyTyped = answerP.hasAttribute('data-typed');
+                if (!wasAlreadyTyped) {
                     answerP.textContent = answerP.dataset.text;
                 }
                 const fullHeight = answerP.scrollHeight;
-                answerP.textContent = ''; // Wieder leeren für den Typewriter
+                if (!wasAlreadyTyped) {
+                    answerP.textContent = ''; // Wieder leeren für den Typewriter
+                }
 
-                // Jetzt die Animation starten
+                // Box aufklappen
                 item.classList.add('active');
                 answerWrapper.style.maxHeight = fullHeight + 'px';
                 
-                // Starte den Typewriter für die Antwort
-                startTypewriter(answerP);
+                // Typewriter starten (mit einer langsameren Geschwindigkeit von 50ms)
+                startTypewriter(answerP, 50);
 
             } else {
+                // Box zuklappen
                 item.classList.remove('active');
                 answerWrapper.style.maxHeight = 0;
             }
