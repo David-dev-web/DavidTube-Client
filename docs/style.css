@@ -125,21 +125,26 @@ body {
     color: var(--text-secondary);
 }
 
-/* === SCROLL-REVEAL-ANIMATIONEN === */
+/* NEUE VERSION */
 .hero-title, .hero-subtitle, .cta-button, .feature-item {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform; /* Performance-Tipp */
 }
+
 
 .is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Verzögerung für einen gestaffelten Effekt */
-.feature-item:nth-child(2) { transition-delay: 0.1s; }
-.feature-item:nth-child(3) { transition-delay: 0.2s; }
+/* NEUE VERSION */
+/* Die Verzögerung wird jetzt durch JavaScript gesteuert,
+   damit die Hover-Effekte sofort reagieren. */
+.feature-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 
 /* === FOOTER === */
