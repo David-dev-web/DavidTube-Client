@@ -61,21 +61,6 @@ body {
     justify-content: space-between;
     align-items: center;
 }
-.nav-button {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: #000;
-    font-size: 0.9em;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 8px 20px;
-    border-radius: 50px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-.nav-button:hover {
-    transform: scale(1.05);
-    background-color: var(--accent-hover);
-}
 
 /* === HERO-BEREICH === */
 .hero {
@@ -141,23 +126,61 @@ body {
     50% { opacity: 0; }
 }
 
-.cta-button {
-    display: inline-block;
+/* === NEU: MORPHING BUTTONS === */
+.morph-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--accent-color);
     color: #000;
-    font-size: 1.1em;
     font-weight: 700;
     text-decoration: none;
-    padding: 15px 40px;
     border-radius: 50px;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.nav-button {
+    height: 40px;
+    width: 120px;
+    font-size: 0.9em;
+}
+.cta-button {
+    height: 54px;
+    width: 250px;
+    font-size: 1.1em;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
-.cta-button:hover {
-    transform: scale(1.05) translateY(-3px);
+.button-text, .button-icon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.button-icon {
+    opacity: 0;
+    transform: translateY(10px);
+}
+.button-icon svg {
+    stroke: #000;
+}
+.morph-button:hover {
     background-color: var(--accent-hover);
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
+.nav-button:hover {
+    width: 40px; /* Wird zum Kreis */
+}
+.cta-button:hover {
+    width: 54px; /* Wird zum Kreis */
+}
+.morph-button:hover .button-text {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.morph-button:hover .button-icon {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .version-info {
     margin-top: 20px;
     font-size: 0.9em;
@@ -350,5 +373,15 @@ footer p {
     }
     body {
         cursor: auto;
+    }
+    /* Auf Touch-Geräten macht der Morph-Effekt keinen Sinn, also deaktivieren wir ihn */
+    .morph-button:hover {
+        width: auto;
+    }
+    .morph-button:hover .button-text {
+        opacity: 1;
+    }
+    .morph-button:hover .button-icon {
+        opacity: 0;
     }
 }
