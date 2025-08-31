@@ -25,7 +25,8 @@
     <header class="hero">
         <div class="container">
             <h1 class="hero-title">Der Desktop-Client für YouTube, neu gedacht.</h1>
-            <p class="hero-subtitle">Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.</p>
+            <!-- HIER IST DIE ÄNDERUNG: ID hinzugefügt und Inhalt geleert -->
+            <p class="hero-subtitle" id="typewriter-subtitle"></p>
             <a href="https://github.com/David-dev-web/DavidTube-Client/releases/download/v1.0.1/DavidTube.Setup.1.0.1.exe" class="cta-button">
                 Download für Windows
             </a>
@@ -36,14 +37,12 @@
     <main>
         <div class="container">
             <section class="features">
-                <!-- Die Feature-Kacheln bleiben unverändert -->
                 <div class="feature-item"><h3>⚡ Live-Suche</h3><p>Finde Videos sofort, während du noch tippst. Keine Wartezeit, keine Ladebalken.</p></div>
                 <div class="feature-item"><h3>❤️ Favoriten</h3><p>Speichere deine Lieblingsvideos mit einem Klick und greife jederzeit darauf zu.</p></div>
                 <div class="feature-item"><h3>✨ Elegantes UI</h3><p>Ein sauberes, an Spotify angelehntes Design, das sich auf das Wesentliche konzentriert.</p></div>
             </section>
 
             <section class="gallery">
-                <!-- NEU: Klasse zur Überschrift hinzugefügt -->
                 <h2 class="section-title animate-title">Die App in Aktion</h2>
                 <div class="gallery-grid">
                     <div class="gallery-item">
@@ -56,7 +55,6 @@
             </section>
 
             <section class="faq">
-                <!-- NEU: Klasse zur Überschrift hinzugefügt -->
                 <h2 class="section-title animate-title">Häufig gestellte Fragen</h2>
                 <div class="faq-item"><button class="faq-question"><span>Auf welchen Betriebssystemen läuft DavidTube?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Aktuell ist DavidTube als Anwendung für Windows (10 und 11 ) verfügbar. Eine Version für macOS ist in Planung.</p></div></div>
                 <div class="faq-item"><button class="faq-question"><span>Ist die App wirklich komplett kostenlos?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Ja, zu 100%. Die App ist ein Open-Source-Projekt und wird immer kostenlos bleiben. Es gibt keine Werbung oder versteckte Kosten.</p></div></div>
@@ -69,11 +67,8 @@
         <div class="container"><p>&copy; 2025 Erstellt von David.</p><a href="https://github.com/David-dev-web/DavidTube-Client" class="footer-link">Quellcode auf GitHub</a></div>
     </footer>
 
-    <!-- NEU: GSAP & ScrollTrigger Bibliotheken wieder hinzugefügt -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    
-    <!-- Unser eigenes Skript kommt ZULETZT -->
     <script src="script.js"></script>
 
 </body>
