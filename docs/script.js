@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- CURSOR-FOLLOWER LOGIK (unverändert) ---
+    // --- CURSOR-FOLLOWER LOGIK ---
     const cursorDot = document.querySelector('.cursor-dot');
-    const hoverables = document.querySelectorAll('a, button, .thumbnail'); // NEU: .thumbnail hinzugefügt
+    const hoverables = document.querySelectorAll('a, button');
     const moveCursor = (e) => {
         cursorDot.style.left = `${e.clientX}px`;
         cursorDot.style.top = `${e.clientY}px`;
@@ -13,42 +13,46 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
     });
 
-    // --- NEU: SMART HEADER LOGIK ---
+    // --- SMART HEADER LOGIK ---
     const header = document.querySelector('.hero');
     let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) { // Aktiviert erst nach 200px scrollen
+        if (window.scrollY > 200) {
             if (lastScrollY < window.scrollY) {
-                // Nach unten gescrollt
                 header.classList.add('hidden');
             } else {
-                // Nach oben gescrollt
                 header.classList.remove('hidden');
             }
         }
         lastScrollY = window.scrollY;
     });
 
-    // --- NEU: SCREENSHOT-GALERIE LOGIK ---
-    const mainImage = document.getElementById('main-gallery-image');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', () => {
-            // Setze das Hauptbild
-            mainImage.style.opacity = 0; // Ausblenden
-            setTimeout(() => {
-                mainImage.src = thumb.src;
-                mainImage.alt = thumb.alt.replace(' Thumbnail', '');
-                mainImage.style.opacity = 1; // Einblenden
-            }, 300);
+    // --- GSAP SCROLL-HIJACKING GALERIE ---
+    gsap.registerPlugin(ScrollTrigger);
 
-            // Setze den aktiven Zustand
-            thumbnails.forEach(t => t.classList.remove('active'));
-            thumb.classList.add('active');
-        });
+    const slidesContainer = document.querySelector('.gallery-slides');
+
+    // Nur auf Desktops ausführen (wichtige mobile Optimierung!)
+    ScrollTrigger.matchMedia({
+        "(min-width: 769px)": function() {
+            gsap.to(slidesContainer, {
+                x: () => -(slidesContainer.scrollWidth - window.innerWidth),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".gallery-container",
+                    start: "top top",
+                    end: () => "+=" + (slidesContainer.scrollWidth - window.innerWidth),
+                    scrub: 1,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                }
+            });
+        }
     });
 
-    // --- FAQ-AKKORDEON LOGIK (unverändert) ---
+
+    // --- FAQ-AKKORDEON LOGIK ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
@@ -65,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- SCROLL-REVEAL-ANIMATIONEN (angepasst) ---
+    // --- SCROLL-REVEAL-ANIMATIONEN ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
@@ -74,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.1 });
-    // Wir beobachten jetzt auch die .gallery
-    document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item, .gallery, .faq-item').forEach(el => {
+    
+    document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item, .faq-item').forEach(el => {
         observer.observe(el);
     });
 
