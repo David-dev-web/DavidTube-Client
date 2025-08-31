@@ -6,7 +6,7 @@
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
     --accent-hover: #25d366;
-    --border-color: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.1 );
 }
 
 body {
@@ -18,6 +18,73 @@ body {
     overflow-x: hidden;
     cursor: none;
 }
+
+/* === NEUER PRELOADER === */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+}
+.preloader-content {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: preloader-fade-in 1s ease 0.5s forwards;
+}
+@keyframes preloader-fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.preloader-logo {
+    font-size: 5rem;
+    animation: logo-float 3s ease-in-out infinite;
+}
+@keyframes logo-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.preloader-button {
+    background: none;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 50px;
+    margin-top: 40px;
+    cursor: none;
+    transition: all 0.3s ease;
+}
+.preloader-button:hover {
+    background-color: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+}
+
+/* === PAGE WRAPPER (ANFANGS UNSICHTBAR) === */
+.page-wrapper {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.page-wrapper.visible {
+    opacity: 1;
+}
+
 
 /* === CURSOR-FOLLOWER === */
 .cursor-dot {
@@ -68,7 +135,6 @@ body {
     text-align: center;
 }
 
-/* HIER IST DIE ÄNDERUNG: Styling für den Logo-Link */
 .logo-link {
     text-decoration: none;
     transition: transform 0.2s ease;
@@ -150,7 +216,6 @@ body {
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Startzustand: Kreis */
 .nav-button {
     height: 40px;
     width: 40px;
@@ -163,7 +228,6 @@ body {
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
-/* Startzustand: Text unsichtbar, Icon sichtbar */
 .button-text {
     position: absolute;
     white-space: nowrap;
@@ -181,7 +245,6 @@ body {
     stroke: #000;
 }
 
-/* Hover-Zustand: Rechteck */
 .morph-button:hover {
     background-color: var(--accent-hover);
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
@@ -193,7 +256,6 @@ body {
     width: 250px;
 }
 
-/* Hover-Zustand: Text sichtbar, Icon unsichtbar */
 .morph-button:hover .button-text {
     opacity: 1;
     transform: scale(1);
@@ -391,7 +453,6 @@ footer p {
     }
 }
 
-/* HIER IST DIE ÄNDERUNG: Optimierung für Touch-Geräte */
 @media (hover: none) {
     .cursor-dot {
         display: none;
@@ -399,7 +460,6 @@ footer p {
     body {
         cursor: auto;
     }
-    /* Zeigt den Button immer in voller Breite an, wenn kein Hover möglich ist */
     .nav-button {
         width: 120px;
     }
@@ -411,6 +471,6 @@ footer p {
         transform: scale(1);
     }
     .button-icon {
-        display: none; /* Icon komplett ausblenden */
+        display: none;
     }
 }
