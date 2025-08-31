@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- TYPEWRITER-EFFEKT LOGIK ---
+    const typewriterElement = document.getElementById('typewriter-subtitle');
+    if (typewriterElement) {
+        const textToType = "Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.";
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < textToType.length) {
+                typewriterElement.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(type, Math.random() * 80 + 20); // Realistischere Tipp-Geschwindigkeit
+            } else {
+                // Wenn der Text fertig ist, warte 2 Sekunden und entferne dann die Cursor-Klasse
+                setTimeout(() => {
+                    typewriterElement.classList.remove('typing');
+                }, 2000); // 2 Sekunden
+            }
+        }
+
+        // Fügt eine Klasse hinzu, um den Cursor anzuzeigen und startet den Effekt
+        typewriterElement.classList.add('typing');
+        setTimeout(type, 800); // Startet nach einer kurzen Verzögerung
+    }
+
     // --- CURSOR-FOLLOWER LOGIK ---
     const cursorDot = document.querySelector('.cursor-dot');
     const hoverables = document.querySelectorAll('a, button, .gallery-item img');
@@ -57,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.1 });
     
-    document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item, .gallery-item, .faq-item').forEach(el => {
+    // Wichtig: .hero-subtitle wird nicht mehr vom Observer gesteuert
+    document.querySelectorAll('.hero-title, .cta-button, .feature-item, .gallery-item, .faq-item').forEach(el => {
         observer.observe(el);
     });
 
@@ -65,40 +90,36 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     document.querySelectorAll('.animate-title').forEach(title => {
-        // 1. Text in Buchstaben aufteilen
         const text = title.textContent;
-        title.innerHTML = ''; // Leert die Überschrift
+        title.innerHTML = ''; 
 
-        // Wir erstellen für jeden Buchstaben ein <span>
         text.split('').forEach(char => {
             const span = document.createElement('span');
             span.className = 'char';
             span.textContent = char;
-            // Wichtig: Ein Leerzeichen muss als solches erhalten bleiben, damit der Zeilenumbruch funktioniert
             if (char.trim() === '') {
                 span.style.display = 'inline'; 
             }
             title.appendChild(span);
         });
 
-        // 2. GSAP-Animation für diese Buchstaben erstellen
         gsap.fromTo(title.querySelectorAll('.char'), 
-            { // Start-Zustand (aus dem CSS)
+            { 
                 opacity: 0,
-                y: 50, // y ist eine Kurzform für translateY
+                y: 50,
                 scale: 0.5
             },
-            { // End-Zustand (wohin animiert wird)
+            { 
                 opacity: 1,
                 y: 0,
                 scale: 1,
                 duration: 0.5,
-                stagger: 0.05, // Verzögerung zwischen den Buchstaben
+                stagger: 0.05,
                 ease: 'power2.out',
                 scrollTrigger: {
                     trigger: title,
-                    start: 'top 85%', // Startet, wenn 85% der Überschrift von unten sichtbar sind
-                    toggleActions: 'play none none reverse' // Spielt ab, wenn man reinscrollt, und rückwärts, wenn man wieder rausscrollt
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
                 }
             }
         );
