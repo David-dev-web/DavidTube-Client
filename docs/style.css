@@ -1,10 +1,10 @@
 /* === GRUNDEINSTELLUNGEN & VARIABLEN === */
 :root {
     --bg-color: #000000;
-    --surface-color: #121212;
+    --surface-color: rgba(18, 18, 18, 0.85); /* Leicht transparent für den Hintergrund-Effekt */
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
-    --accent-color: #1DB954; /* Das bekannte Grün */
+    --accent-color: #1DB954;
     --accent-hover: #25d366;
     --border-color: rgba(255, 255, 255, 0.1);
 }
@@ -15,40 +15,33 @@ body {
     color: var(--text-primary);
     margin: 0;
     line-height: 1.6;
-    overflow-x: hidden; /* Verhindert horizontales Scrollen */
+    overflow-x: hidden;
 }
 
-/* === INTERAKTIVER MAUS-SPOTLIGHT-EFFEKT === */
-body::before {
-    content: '';
+/* === PARTIKEL-HINTERGRUND === */
+#particles-js {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(
-        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(45, 212, 102, 0.15),
-        transparent 40%
-    );
-    z-index: -1;
-    pointer-events: none; /* Wichtig, damit man die Seite noch bedienen kann */
+    top: 0;
+    left: 0;
+    z-index: -1; /* Liegt hinter allem */
 }
-
 
 /* === LAYOUT & CONTAINER === */
 .container {
     max-width: 960px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative; /* Wichtig für z-index */
+    z-index: 1;
 }
 
 /* === HERO-BEREICH (OBEN) === */
 .hero {
-    padding: 100px 0;
+    padding: 120px 0;
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    will-change: transform; /* Performance-Tipp für den Browser */
 }
 
 .logo {
@@ -62,11 +55,10 @@ body::before {
 }
 
 .hero-title {
-    font-size: 4em; /* Größer für mehr Wucht */
+    font-size: 4.5em;
     font-weight: 900;
     margin-bottom: 20px;
     line-height: 1.1;
-    /* Cooler Farbverlauf für den Text */
     background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -84,26 +76,20 @@ body::before {
 .cta-button {
     display: inline-block;
     background-color: var(--accent-color);
-    color: #000; /* Besserer Kontrast */
+    color: #000;
     font-size: 1.1em;
     font-weight: 700;
     text-decoration: none;
     padding: 15px 40px;
     border-radius: 50px;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
 .cta-button:hover {
     transform: scale(1.05) translateY(-3px);
     background-color: var(--accent-hover);
-    box-shadow: 0 0 30px rgba(37, 211, 102, 0.6);
-}
-
-.version-info {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #666;
+    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
 
 /* === FEATURES-BEREICH === */
@@ -112,26 +98,17 @@ body::before {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     padding: 100px 0;
+    perspective: 1000px; /* Aktiviert die 3D-Perspektive für die Kinder */
 }
 
 .feature-item {
     background-color: var(--surface-color);
-    padding: 30px;
-    border-radius: 12px;
+    backdrop-filter: blur(10px); /* Cooler "Glas"-Effekt */
+    padding: 40px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    
-    /* Animations-Setup für Scroll-Reveal */
-    opacity: 0;
-    transform: translateY(30px);
-    animation: reveal 0.8s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation-play-state: paused; /* Animation startet erst, wenn sie sichtbar wird */
-}
-
-.feature-item:hover {
-    transform: translateY(-10px);
-    border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
 }
 
 .feature-item h3 {
@@ -148,12 +125,31 @@ body::before {
     color: var(--text-secondary);
 }
 
+/* === SCROLL-REVEAL-ANIMATIONEN === */
+.hero-title, .hero-subtitle, .cta-button, .feature-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Verzögerung für einen gestaffelten Effekt */
+.feature-item:nth-child(2) { transition-delay: 0.1s; }
+.feature-item:nth-child(3) { transition-delay: 0.2s; }
+
+
 /* === FOOTER === */
 footer {
     text-align: center;
     padding: 50px 0;
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
 }
 
 .footer-link {
@@ -166,16 +162,4 @@ footer {
 .footer-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
-}
-
-/* === KEYFRAME-ANIMATIONEN === */
-@keyframes reveal {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
