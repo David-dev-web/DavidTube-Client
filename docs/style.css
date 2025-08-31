@@ -1,7 +1,8 @@
 /* === GRUNDEINSTELLUNGEN & VARIABLEN === */
 :root {
     --bg-color: #000000;
-    --surface-color: rgba(18, 18, 18, 0.85);
+    /* NEU: Eine leicht transparente Oberfläche für den Glas-Effekt */
+    --surface-color: rgba(22, 22, 22, 0.6); /* Etwas heller und transparenter */
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
@@ -16,7 +17,39 @@ body {
     margin: 0;
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative; /* Wichtig für den neuen Hintergrund */
 }
+
+/* === NEU: DEKORATIVER HINTERGRUND === */
+/* Wir erstellen zwei farbige "Blobs", die hinter allem liegen und durch die Glaselemente scheinen. */
+body::before,
+body::after {
+    content: '';
+    position: fixed; /* Bleibt beim Scrollen an Ort und Stelle */
+    z-index: -1; /* Liegt hinter dem Inhalt */
+    border-radius: 50%;
+    filter: blur(100px); /* Macht die Kanten extrem weich */
+    opacity: 0.15; /* Sehr subtil */
+}
+
+/* Der erste Blob (grünlich) */
+body::before {
+    background: #1DB954; /* Akzentfarbe */
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+}
+
+/* Der zweite Blob (bläulich) */
+body::after {
+    background: #0077ff; /* Eine zweite Kontrastfarbe */
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -150px;
+}
+
 
 /* === LAYOUT & CONTAINER === */
 .container {
@@ -31,6 +64,13 @@ body {
 .hero {
     padding: 120px 0;
     text-align: center;
+    /* NEU: Wir machen den ganzen Header zu einer Glas-Fläche */
+    background: var(--surface-color);
+    backdrop-filter: blur(20px); /* Der Unschärfe-Effekt */
+    -webkit-backdrop-filter: blur(20px); /* Für Safari-Browser */
+    border-bottom: 1px solid var(--border-color);
+    margin: 40px; /* Etwas Abstand, damit man den Effekt sieht */
+    border-radius: 24px; /* Abgerundete Ecken */
 }
 
 .logo {
@@ -97,8 +137,10 @@ body {
 }
 
 .feature-item {
+    /* Wir verwenden jetzt die gleiche Oberfläche wie der Header */
     background-color: var(--surface-color);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px); /* Stärkerer Blur-Effekt */
+    -webkit-backdrop-filter: blur(20px);
     padding: 40px;
     border-radius: 16px;
     border: 1px solid var(--border-color);
@@ -153,6 +195,7 @@ footer p {
 }
 
 /* === SCROLL-REVEAL-ANIMATIONEN === */
+/* Wir nehmen den Header aus der Scroll-Animation, da er jetzt immer sichtbar ist */
 .hero-title, .hero-subtitle, .cta-button, .feature-item {
     opacity: 0;
     transform: translateY(40px);
