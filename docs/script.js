@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CURSOR-FOLLOWER LOGIK ---
     const cursorDot = document.querySelector('.cursor-dot');
-    const hoverables = document.querySelectorAll('a, button');
+    const hoverables = document.querySelectorAll('a, button, .gallery-item img'); // Hover-Effekt auch für Galeriebilder
     const moveCursor = (e) => {
         cursorDot.style.left = `${e.clientX}px`;
         cursorDot.style.top = `${e.clientY}px`;
@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
     });
 
-    // --- SMART HEADER LOGIK (angepasst auf .main-nav) ---
+    // --- SMART HEADER LOGIK ---
     const nav = document.querySelector('.main-nav');
     let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) { // Aktiviert schon nach 50px
-            nav.classList.add('scrolled'); // Fügt die untere Border hinzu
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
             if (lastScrollY < window.scrollY) {
                 nav.classList.add('hidden');
             } else {
@@ -28,27 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             nav.classList.remove('scrolled');
         }
         lastScrollY = window.scrollY;
-    });
-
-    // --- GSAP SCROLL-HIJACKING GALERIE ---
-    gsap.registerPlugin(ScrollTrigger);
-    const slidesContainer = document.querySelector('.gallery-slides');
-    ScrollTrigger.matchMedia({
-        "(min-width: 769px)": function() {
-            gsap.to(slidesContainer, {
-                x: () => -(slidesContainer.scrollWidth - window.innerWidth),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".gallery-container",
-                    start: "top top",
-                    end: () => "+=" + (slidesContainer.scrollWidth - window.innerWidth),
-                    scrub: 1,
-                    pin: true,
-                    anticipatePin: 1,
-                    invalidateOnRefresh: true,
-                }
-            });
-        }
     });
 
     // --- FAQ-AKKORDEON LOGIK ---
@@ -72,13 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                entry.target.style.transitionDelay = `${index * 100}ms`;
+                // Gestaffelte Verzögerung für einen schöneren Effekt
+                entry.target.style.transitionDelay = `${index * 50}ms`;
                 entry.target.classList.add('is-visible');
             }
         });
     }, { threshold: 0.1 });
     
-    document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item, .faq-item').forEach(el => {
+    // Wir beobachten jetzt auch .gallery-item
+    document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item, .gallery-item, .faq-item').forEach(el => {
         observer.observe(el);
     });
 
