@@ -40,36 +40,34 @@
                 <div class="feature-item"><h3>❤️ Favoriten</h3><p>Speichere deine Lieblingsvideos mit einem Klick und greife jederzeit darauf zu.</p></div>
                 <div class="feature-item"><h3>✨ Elegantes UI</h3><p>Ein sauberes, an Spotify angelehntes Design, das sich auf das Wesentliche konzentriert.</p></div>
             </section>
+
+            <!-- NEUE, EINFACHE GALERIE-STRUKTUR -->
+            <section class="gallery">
+                <h2 class="section-title">Die App in Aktion</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="img/screenshot-gaming.png" alt="Gaming-Ansicht">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/screenshot-kategorien.png" alt="Kategorien-Ansicht">
+                    </div>
+                </div>
+            </section>
+
+            <section class="faq">
+                <h2 class="section-title">Häufig gestellte Fragen</h2>
+                <div class="faq-item"><button class="faq-question"><span>Auf welchen Betriebssystemen läuft DavidTube?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Aktuell ist DavidTube als Anwendung für Windows (10 und 11 ) verfügbar. Eine Version für macOS ist in Planung.</p></div></div>
+                <div class="faq-item"><button class="faq-question"><span>Ist die App wirklich komplett kostenlos?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Ja, zu 100%. Die App ist ein Open-Source-Projekt und wird immer kostenlos bleiben. Es gibt keine Werbung oder versteckte Kosten.</p></div></div>
+                <div class="faq-item"><button class="faq-question"><span>Wie kann ich einen Fehler melden oder ein Feature vorschlagen?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Am besten direkt über die "Issues"-Sektion auf der <a href="https://github.com/David-dev-web/DavidTube-Client/issues" target="_blank" class="footer-link">GitHub-Seite</a> des Projekts. So kann ich den Überblick behalten und die Community kann mitdiskutieren.</p></div></div>
+            </section>
         </div>
     </main>
-
-    <!-- Die Galerie-Sektion steht jetzt für sich allein, außerhalb von <main> -->
-    <section class="gallery-container">
-        <h2 class="section-title">Die App in Aktion</h2>
-        <div class="gallery-sticky-wrapper">
-            <div class="gallery-slides">
-                <div class="gallery-slide"><img src="img/screenshot-gaming.png" alt="Gaming-Ansicht"></div>
-                <div class="gallery-slide"><img src="img/screenshot-kategorien.png" alt="Kategorien-Ansicht"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Der restliche Inhalt kommt NACH der Galerie -->
-    <div class="container">
-        <section class="faq">
-            <h2 class="section-title">Häufig gestellte Fragen</h2>
-            <div class="faq-item"><button class="faq-question"><span>Auf welchen Betriebssystemen läuft DavidTube?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Aktuell ist DavidTube als Anwendung für Windows (10 und 11 ) verfügbar. Eine Version für macOS ist in Planung.</p></div></div>
-            <div class="faq-item"><button class="faq-question"><span>Ist die App wirklich komplett kostenlos?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Ja, zu 100%. Die App ist ein Open-Source-Projekt und wird immer kostenlos bleiben. Es gibt keine Werbung oder versteckte Kosten.</p></div></div>
-            <div class="faq-item"><button class="faq-question"><span>Wie kann ich einen Fehler melden oder ein Feature vorschlagen?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Am besten direkt über die "Issues"-Sektion auf der <a href="https://github.com/David-dev-web/DavidTube-Client/issues" target="_blank" class="footer-link">GitHub-Seite</a> des Projekts. So kann ich den Überblick behalten und die Community kann mitdiskutieren.</p></div></div>
-        </section>
-    </div>
 
     <footer>
         <div class="container"><p>&copy; 2025 Erstellt von David.</p><a href="https://github.com/David-dev-web/DavidTube-Client" class="footer-link">Quellcode auf GitHub</a></div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Wir brauchen keine externen Skripte mehr -->
     <script src="script.js"></script>
 
 </body>
