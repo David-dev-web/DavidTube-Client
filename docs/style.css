@@ -38,34 +38,55 @@ body {
     transform: translate(-50%, -50%) scale(1.5);
 }
 
-/* === LAYOUT & CONTAINER === */
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* === HERO-BEREICH & SMART HEADER === */
-.hero {
-    padding: 120px 0;
-    text-align: center;
+/* === NEU: MAIN NAVIGATION (SMART HEADER) === */
+.main-nav {
     position: sticky;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 0;
+    background-color: rgba(18, 18, 18, 0.7); /* Leicht durchsichtiger Hintergrund */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 100;
+    z-index: 1000;
     transition: transform 0.4s ease-out;
+    border-bottom: 1px solid transparent; /* Startet transparent */
 }
-.hero.hidden {
+.main-nav.scrolled {
+    border-bottom-color: var(--border-color); /* Sichtbare Border nach dem Scrollen */
+}
+.main-nav.hidden {
     transform: translateY(-100%);
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #000;
+    font-size: 0.9em;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.nav-button:hover {
+    transform: scale(1.05);
+    background-color: var(--accent-hover);
+}
+
+/* === HERO-BEREICH (KEIN SMART HEADER MEHR) === */
+.hero {
+    padding: 80px 0 120px 0; /* Weniger Padding oben, da die Nav-Leiste Platz einnimmt */
+    text-align: center;
 }
 
 .logo {
     font-size: 1.5em;
     font-weight: 700;
-    margin-bottom: 40px;
-    color: var(--text-secondary);
+    color: var(--text-primary); /* Logo in der Nav-Leiste ist jetzt weiß */
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -175,7 +196,7 @@ body {
     height: 100%;
     display: flex;
     flex-wrap: nowrap;
-    width: 200%; /* 100% pro Bild. Bei 3 Bildern wären es 300% */
+    width: 200%;
 }
 
 .gallery-slide {
@@ -292,6 +313,9 @@ footer p {
     }
     .features {
         padding: 50px 0;
+    }
+    .nav-button {
+        display: none; /* Kleinen Button auf Mobilgeräten ausblenden, um Platz zu sparen */
     }
 }
 @media (max-width: 480px) {
