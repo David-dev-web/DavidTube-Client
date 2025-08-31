@@ -11,7 +11,6 @@
 </head>
 <body>
 
-    <!-- Der Div für den Cursor-Follower -->
     <div class="cursor-dot"></div>
 
     <header class="hero">
@@ -28,6 +27,7 @@
 
     <main class="container">
         <section class="features">
+            <!-- Feature-Items bleiben unverändert -->
             <div class="feature-item">
                 <h3>⚡ Live-Suche</h3>
                 <p>Finde Videos sofort, während du noch tippst. Keine Wartezeit, keine Ladebalken.</p>
@@ -42,8 +42,20 @@
             </div>
         </section>
 
-        <!-- FAQ-Sektion -->
+        <!-- NEU: SCREENSHOT-GALERIE -->
+        <section class="gallery">
+            <h2 class="section-title">Die App in Aktion</h2>
+            <div class="gallery-main-image">
+                <img src="img/screenshot-gaming.png" id="main-gallery-image" alt="Hauptansicht der DavidTube App">
+            </div>
+            <div class="gallery-thumbnails">
+                <img src="img/screenshot-gaming.png" class="thumbnail active" alt="Gaming-Ansicht Thumbnail">
+                <img src="img/screenshot-kategorien.png" class="thumbnail" alt="Kategorien-Ansicht Thumbnail">
+            </div>
+        </section>
+
         <section class="faq">
+            <!-- FAQ-Sektion bleibt unverändert -->
             <h2 class="section-title">Häufig gestellte Fragen</h2>
             <div class="faq-item">
                 <button class="faq-question">
@@ -76,13 +88,13 @@
     </main>
 
     <footer>
+        <!-- Footer bleibt unverändert -->
         <div class="container">
             <p>&copy; 2025 Erstellt von David.</p>
             <a href="https://github.com/David-dev-web/DavidTube-Client" class="footer-link">Quellcode auf GitHub</a>
         </div>
     </footer>
 
-    <!-- Wichtig: Skript am Ende des Body einfügen -->
     <script src="script.js"></script>
 
 </body>
