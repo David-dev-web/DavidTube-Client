@@ -13,7 +13,6 @@
 
     <div class="cursor-dot"></div>
 
-    <!-- NEU: Separate Navigationsleiste -->
     <nav class="main-nav">
         <div class="container nav-container">
             <div class="logo">🚀 DavidTube</div>
@@ -23,7 +22,6 @@
         </div>
     </nav>
 
-    <!-- Der Header ist jetzt nur noch der große Banner -->
     <header class="hero">
         <div class="container">
             <h1 class="hero-title">Der Desktop-Client für YouTube, neu gedacht.</h1>
@@ -35,40 +33,39 @@
         </div>
     </header>
 
-    <main> <!-- Main umschließt jetzt alles außer nav und footer -->
+    <!-- Main umschließt jetzt nur noch Features und FAQ -->
+    <main>
         <div class="container">
             <section class="features">
-                <!-- ... unverändert ... -->
                 <div class="feature-item"><h3>⚡ Live-Suche</h3><p>Finde Videos sofort, während du noch tippst. Keine Wartezeit, keine Ladebalken.</p></div>
                 <div class="feature-item"><h3>❤️ Favoriten</h3><p>Speichere deine Lieblingsvideos mit einem Klick und greife jederzeit darauf zu.</p></div>
                 <div class="feature-item"><h3>✨ Elegantes UI</h3><p>Ein sauberes, an Spotify angelehntes Design, das sich auf das Wesentliche konzentriert.</p></div>
             </section>
         </div>
-
-        <section class="gallery-container">
-            <!-- ... unverändert ... -->
-            <h2 class="section-title">Die App in Aktion</h2>
-            <div class="gallery-sticky-wrapper">
-                <div class="gallery-slides">
-                    <div class="gallery-slide"><img src="img/screenshot-gaming.png" alt="Gaming-Ansicht"></div>
-                    <div class="gallery-slide"><img src="img/screenshot-kategorien.png" alt="Kategorien-Ansicht"></div>
-                </div>
-            </div>
-        </section>
-
-        <div class="container">
-            <section class="faq">
-                <!-- ... unverändert ... -->
-                <h2 class="section-title">Häufig gestellte Fragen</h2>
-                <div class="faq-item"><button class="faq-question"><span>Auf welchen Betriebssystemen läuft DavidTube?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Aktuell ist DavidTube als Anwendung für Windows (10 und 11 ) verfügbar. Eine Version für macOS ist in Planung.</p></div></div>
-                <div class="faq-item"><button class="faq-question"><span>Ist die App wirklich komplett kostenlos?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Ja, zu 100%. Die App ist ein Open-Source-Projekt und wird immer kostenlos bleiben. Es gibt keine Werbung oder versteckte Kosten.</p></div></div>
-                <div class="faq-item"><button class="faq-question"><span>Wie kann ich einen Fehler melden oder ein Feature vorschlagen?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Am besten direkt über die "Issues"-Sektion auf der <a href="https://github.com/David-dev-web/DavidTube-Client/issues" target="_blank" class="footer-link">GitHub-Seite</a> des Projekts. So kann ich den Überblick behalten und die Community kann mitdiskutieren.</p></div></div>
-            </section>
-        </div>
     </main>
 
+    <!-- Die Galerie-Sektion steht jetzt für sich allein -->
+    <section class="gallery-container">
+        <h2 class="section-title">Die App in Aktion</h2>
+        <div class="gallery-sticky-wrapper">
+            <div class="gallery-slides">
+                <div class="gallery-slide"><img src="img/screenshot-gaming.png" alt="Gaming-Ansicht"></div>
+                <div class="gallery-slide"><img src="img/screenshot-kategorien.png" alt="Kategorien-Ansicht"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ein weiterer Main- oder Wrapper-Teil für den restlichen Inhalt -->
+    <div class="container">
+        <section class="faq">
+            <h2 class="section-title">Häufig gestellte Fragen</h2>
+            <div class="faq-item"><button class="faq-question"><span>Auf welchen Betriebssystemen läuft DavidTube?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Aktuell ist DavidTube als Anwendung für Windows (10 und 11 ) verfügbar. Eine Version für macOS ist in Planung.</p></div></div>
+            <div class="faq-item"><button class="faq-question"><span>Ist die App wirklich komplett kostenlos?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Ja, zu 100%. Die App ist ein Open-Source-Projekt und wird immer kostenlos bleiben. Es gibt keine Werbung oder versteckte Kosten.</p></div></div>
+            <div class="faq-item"><button class="faq-question"><span>Wie kann ich einen Fehler melden oder ein Feature vorschlagen?</span><span class="faq-icon">+</span></button><div class="faq-answer"><p>Am besten direkt über die "Issues"-Sektion auf der <a href="https://github.com/David-dev-web/DavidTube-Client/issues" target="_blank" class="footer-link">GitHub-Seite</a> des Projekts. So kann ich den Überblick behalten und die Community kann mitdiskutieren.</p></div></div>
+        </section>
+    </div>
+
     <footer>
-        <!-- ... unverändert ... -->
         <div class="container"><p>&copy; 2025 Erstellt von David.</p><a href="https://github.com/David-dev-web/DavidTube-Client" class="footer-link">Quellcode auf GitHub</a></div>
     </footer>
 
