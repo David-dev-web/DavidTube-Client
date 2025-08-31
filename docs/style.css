@@ -1,7 +1,7 @@
 /* === GRUNDEINSTELLUNGEN & VARIABLEN === */
 :root {
     --bg-color: #000000;
-    --surface-color: rgba(18, 18, 18, 0.85 );
+    --surface-color: rgba(18, 18, 18, 0.85);
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --accent-color: #1DB954;
@@ -15,17 +15,7 @@ body {
     color: var(--text-primary);
     margin: 0;
     line-height: 1.6;
-    overflow-x: hidden; /* Verhindert horizontales Scrollen durch Animationen */
-}
-
-/* === PARTIKEL-HINTERGRUND === */
-#particles-js {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1; /* Liegt hinter allem */
+    overflow-x: hidden;
 }
 
 /* === LAYOUT & CONTAINER === */
@@ -58,7 +48,6 @@ body {
     font-weight: 900;
     margin-bottom: 20px;
     line-height: 1.1;
-    /* Cooler Farbverlauf für den Text */
     background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -76,20 +65,20 @@ body {
 .cta-button {
     display: inline-block;
     background-color: var(--accent-color);
-    color: #000; /* Schwarzer Text für besseren Kontrast auf Grün */
+    color: #000;
     font-size: 1.1em;
     font-weight: 700;
     text-decoration: none;
     padding: 15px 40px;
     border-radius: 50px;
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 20px rgba(29, 185, 84, 0.4); /* Leuchteffekt */
+    box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
 .cta-button:hover {
     transform: scale(1.05) translateY(-3px);
     background-color: var(--accent-hover);
-    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7); /* Stärkeres Leuchten */
+    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
 
 .version-info {
@@ -104,17 +93,17 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     padding: 100px 0;
-    perspective: 1000px; /* Aktiviert die 3D-Perspektive für die Kinder */
+    perspective: 1000px;
 }
 
 .feature-item {
     background-color: var(--surface-color);
-    backdrop-filter: blur(10px); /* Cooler "Glas"-Effekt */
+    backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 16px;
     border: 1px solid var(--border-color);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
-    will-change: transform; /* Performance-Tipp */
+    will-change: transform;
 }
 
 .feature-item:hover {
