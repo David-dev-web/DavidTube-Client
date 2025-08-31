@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/dein-font-awesome-kit-code.js" crossorigin="anonymous"></script> <!-- Optional: Für Icons -->
 </head>
 <body>
 
@@ -39,9 +38,6 @@
                 <p>Ein sauberes, an Spotify angelehntes Design, das sich auf das Wesentliche konzentriert.</p>
             </div>
         </section>
-
-        <!-- Hier könnten wir noch eine Screenshot-Galerie einfügen -->
-        
     </main>
 
     <footer>
@@ -50,6 +46,30 @@
             <a href="https://github.com/David-dev-web/DavidTube-Client" class="footer-link">Quellcode auf GitHub</a>
         </div>
     </footer>
+
+    <!-- === JAVASCRIPT FÜR DIE MAGIE === -->
+    <script>
+        // Interaktiver Maus-Effekt
+        document.body.addEventListener('mousemove', e => {
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px' );
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // Scroll-Reveal-Animation
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, {
+            threshold: 0.5 // Animation startet, wenn 50% des Elements sichtbar sind
+        });
+
+        document.querySelectorAll('.feature-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
 
 </body>
 </html>
