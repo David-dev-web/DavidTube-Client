@@ -280,3 +280,51 @@ footer p {
     transform: translateY(0);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+/* === RESPONSIVE DESIGN / MOBILE OPTIMIERUNG === */
+
+/* Gilt für Tablets und kleinere Geräte (alles unter 768px Breite) */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3em; /* Deutlich kleinere Schriftgröße für die Hauptüberschrift */
+    }
+
+    .section-title {
+        font-size: 2em; /* Kleinere Sektions-Überschriften */
+    }
+
+    .features {
+        padding: 50px 0; /* Weniger Abstand oben/unten */
+    }
+}
+
+/* Gilt nur für Smartphones (alles unter 480px Breite) */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5em; /* Noch kleiner für sehr schmale Bildschirme */
+    }
+
+    .hero-subtitle {
+        font-size: 1em;
+    }
+
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+
+    .thumbnail {
+        width: 100px; /* Kleinere Thumbnails */
+        height: 60px;
+    }
+}
+
+/* Deaktiviert den Cursor und Hover-Effekte auf Geräten, die kein Hover können (also fast alle Touch-Geräte) */
+@media (hover: none) {
+    .cursor-dot {
+        display: none; /* Versteckt den Cursor-Punkt komplett */
+    }
+
+    body {
+        cursor: auto; /* Zeigt den normalen System-Cursor wieder an (falls vorhanden) */
+    }
+}
