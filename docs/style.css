@@ -126,7 +126,7 @@ body {
     50% { opacity: 0; }
 }
 
-/* === NEU: REVERSE MORPHING BUTTONS === */
+/* === REVERSE MORPHING BUTTONS (MIT TEXT-STRETCH) === */
 .morph-button {
     display: inline-flex;
     align-items: center;
@@ -144,27 +144,29 @@ body {
 /* Startzustand: Kreis */
 .nav-button {
     height: 40px;
-    width: 40px; /* Kreis */
+    width: 40px;
     font-size: 0.9em;
 }
 .cta-button {
     height: 54px;
-    width: 54px; /* Kreis */
+    width: 54px;
     font-size: 1.1em;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
-/* Startzustand: Text unsichtbar, Icon sichtbar */
+/* Startzustand: Text unsichtbar & gestaucht, Icon sichtbar */
 .button-text {
     position: absolute;
+    white-space: nowrap; /* Verhindert unschönen Zeilenumbruch während der Animation */
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scaleX(0); /* Der Text ist horizontal gestaucht */
+    transform-origin: center center; /* Stauchen zur Mitte hin */
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .button-icon {
     position: absolute;
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .button-icon svg {
@@ -177,20 +179,20 @@ body {
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
 .nav-button:hover {
-    width: 120px; /* Wird zum Rechteck */
+    width: 120px;
 }
 .cta-button:hover {
-    width: 250px; /* Wird zum Rechteck */
+    width: 250px;
 }
 
-/* Hover-Zustand: Text sichtbar, Icon unsichtbar */
+/* Hover-Zustand: Text sichtbar & gestreckt, Icon unsichtbar */
 .morph-button:hover .button-text {
     opacity: 1;
-    transform: translateY(0);
+    transform: scaleX(1); /* Der Text wird auf seine volle Breite gedehnt */
 }
 .morph-button:hover .button-icon {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: scale(0);
 }
 
 .version-info {
@@ -393,6 +395,7 @@ footer p {
     }
     .button-text {
         opacity: 1;
+        transform: scaleX(1);
     }
     .button-icon {
         display: none;
