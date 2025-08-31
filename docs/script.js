@@ -1,368 +1,149 @@
-/* === GRUNDEINSTELLUNGEN & VARIABLEN === */
-:root {
-    --bg-color: #000000;
-    --surface-color: #121212;
-    --text-primary: #ffffff;
-    --text-secondary: #b3b3b3;
-    --accent-color: #1DB954;
-    --accent-hover: #25d366;
-    --border-color: rgba(255, 255, 255, 0.1);
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    margin: 0;
-    line-height: 1.6;
-    overflow-x: hidden;
-    cursor: none;
-}
-
-/* === CURSOR-FOLLOWER === */
-.cursor-dot {
-    width: 30px;
-    height: 30px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.2s ease-out;
-}
-.cursor-dot.hover {
-    transform: translate(-50%, -50%) scale(1.5);
-}
-
-/* === MAIN NAVIGATION (SMART HEADER) === */
-.main-nav {
-    position: sticky;
-    top: 0;
-    padding: 15px 0;
-    background-color: rgba(18, 18, 18, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: transform 0.4s ease-out;
-    border-bottom: 1px solid transparent;
-}
-.main-nav.scrolled {
-    border-bottom-color: var(--border-color);
-}
-.main-nav.hidden {
-    transform: translateY(-100%);
-}
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* === HERO-BEREICH === */
-.hero {
-    padding: 80px 0 120px 0;
-    text-align: center;
-}
-
-.logo {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: var(--text-primary);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.hero-title {
-    font-size: 4.5em;
-    font-weight: 900;
-    margin-bottom: 20px;
-    line-height: 1.1;
-    background: linear-gradient(90deg, var(--accent-color), var(--text-primary), var(--text-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: gradient-shine 5s linear infinite;
-}
-
-@keyframes gradient-shine {
-    to {
-        background-position: 200% center;
+    // --- WIEDERVERWENDBARE TYPEWRITER-FUNKTION ---
+    function startTypewriter(element, speed, onComplete) {
+        if (!element) {
+            if (onComplete) onComplete();
+            return;
+        }
+        const textToType = element.dataset.text || element.textContent;
+        let charIndex = 0;
+        if (element.hasAttribute('data-typed')) {
+            element.textContent = textToType;
+            if (onComplete) onComplete();
+            return;
+        }
+        element.textContent = '';
+        element.setAttribute('data-typed', 'true');
+        function type() {
+            if (charIndex < textToType.length) {
+                element.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(type, speed);
+            } else {
+                setTimeout(() => {
+                    element.classList.remove('typing');
+                }, 1000);
+                if (onComplete) onComplete();
+            }
+        }
+        element.classList.add('typing');
+        setTimeout(type, 100);
     }
-}
 
-.hero-subtitle {
-    font-size: 1.2em;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 40px auto;
-    min-height: 58px;
-}
-
-/* === TYPEWRITER-EFFEKT === */
-#typewriter-subtitle, .typewriter-answer {
-    position: relative; 
-}
-
-#typewriter-subtitle.typing::after,
-.typewriter-answer.typing::after {
-    content: '|';
-    position: absolute;
-    bottom: 0;
-    margin-left: 5px;
-    font-weight: 200;
-    color: var(--accent-color);
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
-/* === NEU: RIPPLE/REVEAL BUTTON EFFECT === */
-.nav-button, .cta-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--accent-color);
-    color: #000;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 50px;
-    position: relative;
-    overflow: hidden; /* Wichtig, damit der Kreis nicht über den Rand hinaus sichtbar ist */
-    z-index: 1; /* Stellt sicher, dass der Button über normalen Elementen liegt */
-    transition: color 0.4s ease-out;
-}
-.nav-button {
-    padding: 10px 25px;
-    font-size: 0.9em;
-}
-.cta-button {
-    padding: 15px 40px;
-    font-size: 1.1em;
-    box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
-}
-
-/* Das ist der Kreis, der aus der Mitte wächst */
-.nav-button::before, .cta-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    padding-bottom: 100%; /* Sorgt für ein perfektes Seitenverhältnis */
-    background-color: var(--accent-hover);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: -1; /* Liegt HINTER dem Text */
-}
-
-/* Der Hover-Effekt */
-.nav-button:hover::before, .cta-button:hover::before {
-    transform: translate(-50%, -50%) scale(2.5); /* Skaliert den Kreis auf eine riesige Größe */
-}
-.cta-button:hover {
-    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
-}
-
-.version-info {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #666;
-}
-
-/* === FEATURES-BEREICH === */
-.features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    padding: 100px 0;
-    perspective: 1000px;
-}
-.feature-item {
-    background-color: var(--surface-color);
-    padding: 40px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
-    will-change: transform;
-}
-.feature-item:hover {
-    transform: rotateX(10deg) rotateY(-5deg) scale(1.05);
-    border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-.feature-item h3 {
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--accent-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.feature-item p {
-    color: var(--text-secondary);
-}
-
-/* === GALERIE === */
-.gallery {
-    padding: 50px 0;
-}
-.gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-}
-.gallery-item img {
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.gallery-item img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-}
-
-/* === FAQ-SEKTION === */
-.faq {
-    padding: 50px 0 100px 0;
-    max-width: 760px;
-    margin: 0 auto;
-}
-.section-title {
-    text-align: center;
-    font-size: 2.5em;
-    font-weight: 900;
-    margin-bottom: 50px;
-    color: var(--text-primary);
-}
-
-/* === TEXT-ANIMATION === */
-.animate-title .char {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(50px) scale(0.5);
-    will-change: opacity, transform;
-}
-
-.faq-item {
-    border-bottom: 1px solid var(--border-color);
-}
-.faq-question {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 25px 0;
-    text-align: left;
-    font-size: 1.2em;
-    font-weight: 700;
-    color: var(--text-primary);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: none;
-}
-.faq-icon {
-    font-size: 1.5em;
-    font-weight: 400;
-    transition: transform 0.3s ease;
-}
-.faq-item.active .faq-icon {
-    transform: rotate(45deg);
-}
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-    color: var(--text-secondary);
-    font-size: 1.1em;
-}
-.faq-answer p {
-    margin: 0;
-    padding: 0 0 25px 0;
-}
-
-/* === FOOTER === */
-footer {
-    text-align: center;
-    padding: 50px 0;
-    border-top: 1px solid var(--border-color);
-    color: var(--text-secondary);
-}
-footer p {
-    margin: 0 0 10px 0;
-}
-.footer-link {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.2s ease;
-}
-.footer-link:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-}
-
-/* === SCROLL-REVEAL-ANIMATIONEN === */
-.hero-title, .cta-button, .feature-item, .gallery-item, .faq-item {
-    opacity: 0;
-    transform: translateY(40px);
-    will-change: opacity, transform;
-}
-.hero-subtitle {
-    opacity: 1;
-}
-.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-/* === RESPONSIVE DESIGN / MOBILE OPTIMIERUNG === */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 3em;
+    // --- TYPEWRITER FÜR DIE UNTERÜBERSCHRIFT ---
+    const typewriterSubtitle = document.getElementById('typewriter-subtitle');
+    if (typewriterSubtitle) {
+        typewriterSubtitle.dataset.text = "Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.";
+        setTimeout(() => startTypewriter(typewriterSubtitle, 80), 800);
     }
-    .section-title {
-        font-size: 2em;
-    }
-    .features, .gallery {
-        padding: 50px 0;
-    }
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
-}
-@media (max-width: 480px) {
-    .hero-title {
-        font-size: 2.5em;
-    }
-    .hero-subtitle {
-        font-size: 1em;
-        min-height: 80px;
-    }
-    .cta-button {
-        padding: 12px 30px;
-        font-size: 1em;
-    }
-}
-@media (hover: none) {
-    .cursor-dot {
-        display: none;
-    }
-    body {
-        cursor: auto;
-    }
-}
+
+    // --- CURSOR-FOLLOWER LOGIK ---
+    const cursorDot = document.querySelector('.cursor-dot');
+    const hoverables = document.querySelectorAll('a, button, .gallery-item img');
+    const moveCursor = (e) => {
+        if (cursorDot) {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+        }
+    };
+    window.addEventListener('mousemove', moveCursor);
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+    });
+
+    // --- SMART HEADER LOGIK ---
+    const nav = document.querySelector('.main-nav');
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+            if (lastScrollY < window.scrollY) {
+                nav.classList.add('hidden');
+            } else {
+                nav.classList.remove('hidden');
+            }
+        } else {
+            nav.classList.remove('scrolled');
+        }
+        lastScrollY = window.scrollY;
+    });
+
+    // --- FAQ-AKKORDEON LOGIK ---
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answerWrapper = item.querySelector('.faq-answer');
+        const answerP = answerWrapper.querySelector('.typewriter-answer');
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            if (!isActive) {
+                const wasAlreadyTyped = answerP.hasAttribute('data-typed');
+                if (!wasAlreadyTyped) {
+                    answerP.textContent = answerP.dataset.text;
+                }
+                const fullHeight = answerP.scrollHeight;
+                if (!wasAlreadyTyped) {
+                    answerP.textContent = '';
+                }
+                item.classList.add('active');
+                answerWrapper.style.maxHeight = fullHeight + 'px';
+                startTypewriter(answerP, 50);
+            } else {
+                item.classList.remove('active');
+                answerWrapper.style.maxHeight = 0;
+            }
+        });
+    });
+
+    // --- SCROLL-REVEAL-ANIMATIONEN ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                entry.target.style.transitionDelay = `${index * 50}ms`;
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.hero-title, .cta-button, .feature-item, .gallery-item, .faq-item').forEach(el => {
+        observer.observe(el);
+    });
+
+    // --- GSAP TEXT-ANIMATION BEIM SCROLLEN ---
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('.animate-title').forEach(title => {
+        const text = title.textContent;
+        title.innerHTML = '';
+        text.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+            if (char.trim() === '') {
+                span.style.display = 'inline';
+            }
+            title.appendChild(span);
+        });
+        gsap.fromTo(title.querySelectorAll('.char'), 
+            { 
+                opacity: 0,
+                y: 50,
+                scale: 0.5
+            },
+            { 
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.5,
+                stagger: 0.05,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    });
+
+});
