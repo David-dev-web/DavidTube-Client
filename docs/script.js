@@ -13,26 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
     });
 
-    // --- SMART HEADER LOGIK ---
-    const header = document.querySelector('.hero');
+    // --- SMART HEADER LOGIK (angepasst auf .main-nav) ---
+    const nav = document.querySelector('.main-nav');
     let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) {
+        if (window.scrollY > 50) { // Aktiviert schon nach 50px
+            nav.classList.add('scrolled'); // Fügt die untere Border hinzu
             if (lastScrollY < window.scrollY) {
-                header.classList.add('hidden');
+                nav.classList.add('hidden');
             } else {
-                header.classList.remove('hidden');
+                nav.classList.remove('hidden');
             }
+        } else {
+            nav.classList.remove('scrolled');
         }
         lastScrollY = window.scrollY;
     });
 
     // --- GSAP SCROLL-HIJACKING GALERIE ---
     gsap.registerPlugin(ScrollTrigger);
-
     const slidesContainer = document.querySelector('.gallery-slides');
-
-    // Nur auf Desktops ausführen (wichtige mobile Optimierung!)
     ScrollTrigger.matchMedia({
         "(min-width: 769px)": function() {
             gsap.to(slidesContainer, {
@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-
 
     // --- FAQ-AKKORDEON LOGIK ---
     const faqItems = document.querySelectorAll('.faq-item');
