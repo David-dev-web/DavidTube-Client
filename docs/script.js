@@ -48,17 +48,27 @@ featureItems.forEach(item => {
 });
 
 
-// === SCROLL-REVEAL-ANIMATION ===
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
+// NEUE VERSION - SCROLL-REVEAL-ANIMATION MIT GESTEUERTER VERZÖGERUNG
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
+            // Füge eine Verzögerung basierend auf der Reihenfolge des Elements hinzu
+            const delay = entry.target.classList.contains('feature-item') ? index * 100 : 0; // 100ms Verzögerung nur für Feature-Items
+
+            setTimeout(() => {
+                entry.target.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                entry.target.classList.add('is-visible');
+            }, delay);
+
+            // Stoppe die Beobachtung, nachdem die Animation einmal ausgelöst wurde
+            observer.unobserve(entry.target);
         }
     });
 }, {
-    threshold: 0.1 // Animation startet, wenn 10% des Elements sichtbar sind
+    threshold: 0.1
 });
 
-document.querySelectorAll('.feature-item, .hero-title, .hero-subtitle, .cta-button').forEach(el => {
+document.querySelectorAll('.hero-title, .hero-subtitle, .cta-button, .feature-item').forEach(el => {
     observer.observe(el);
 });
+
