@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Willkommen bei DavidTube</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family: 'Inter', sans-serif;
+            --bg-color: #121212;
+            --text-primary: #ffffff;
+            --accent-color: #1DB954;
+        }
+        body {
+            font-family: var(--font-family );
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            -webkit-app-region: drag; /* Ermöglicht das Ziehen des Fensters */
+        }
+        .container {
+            text-align: center;
+        }
+        .logo {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        .logo i {
+            color: var(--accent-color);
+            margin-right: 15px;
+        }
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+        #start-btn {
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            -webkit-app-region: no-drag; /* Button selbst ist nicht ziehbar */
+        }
+        #start-btn:hover {
+            transform: scale(1.05);
+            background-color: #1ed760;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"><i class="fab fa-youtube"></i> DavidTube</div>
+        <h1>Willkommen!</h1>
+        <p>Deine neue Desktop-App für YouTube.</p>
+        <button id="start-btn">Los geht's</button>
+    </div>
+
+    <script>
+        // IPC Renderer importieren, um mit main.js zu kommunizieren
+        const { ipcRenderer } = require('electron');
+        
+        document.getElementById('start-btn').addEventListener('click', () => {
+            // Nachricht an den Hauptprozess senden, dass der Button geklickt wurde
+            ipcRenderer.send('close-welcome-and-show-main');
+        });
+    </script>
+</body>
+</html>

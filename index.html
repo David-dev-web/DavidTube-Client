@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DavidTube</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-color: #000000;
+            --sidebar-color: #000000;
+            --main-color: #121212;
+            --card-color: #181818;
+            --card-hover-color: #282828;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #1DB954;
+            --heart-color: #ff4f4f;
+            --transition-fast: 0.2s ease-in-out;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-family ); background-color: var(--bg-color); color: var(--text-primary); display: grid; grid-template-rows: 1fr auto; grid-template-columns: auto 1fr; height: 100vh; overflow: hidden; }
+        .sidebar { grid-row: 1 / 2; grid-column: 1 / 2; background-color: var(--sidebar-color); padding: 24px 12px; width: 250px; display: flex; flex-direction: column; }
+        .sidebar .logo { font-size: 1.8em; font-weight: 700; margin-bottom: 30px; padding: 0 12px; color: var(--text-primary); }
+        .sidebar .logo i { color: var(--accent-color); margin-right: 10px; }
+        .sidebar nav ul { list-style: none; }
+        .sidebar nav li { margin-bottom: 10px; }
+        .sidebar nav a { color: var(--text-secondary); text-decoration: none; font-weight: 700; font-size: 0.9em; display: flex; align-items: center; padding: 10px 12px; border-radius: 4px; transition: color var(--transition-fast); }
+        .sidebar nav a:hover { color: var(--text-primary); }
+        .sidebar nav a.active { color: var(--text-primary); background-color: var(--card-hover-color); }
+        .sidebar nav a i { margin-right: 16px; width: 24px; font-size: 1.5em; text-align: center; }
+        .main-view { grid-row: 1 / 2; grid-column: 2 / 3; background: linear-gradient(to bottom, #222, #121212 300px); display: flex; flex-direction: column; overflow: hidden; border-radius: 8px 0 0 0; }
+        .main-header { padding: 15px 30px; display: flex; align-items: center; -webkit-app-region: drag; }
+        .search-container { display: flex; align-items: center; background-color: #282828; border-radius: 20px; padding: 8px 15px; width: 350px; transition: background-color var(--transition-fast); -webkit-app-region: no-drag; }
+        .search-container:focus-within { background-color: #333; }
+        .search-container i { color: var(--text-secondary); }
+        #search-input { background: transparent; border: none; color: var(--text-primary); font-size: 0.9em; margin-left: 10px; width: 100%; outline: none; }
+        .content-wrapper { padding: 0 30px 30px 30px; overflow-y: auto; flex-grow: 1; }
+        #video-player-container { display: none; }
+        #video-info { display: none; }
+        #video-player-container.visible { display: flex; width: 100%; background-color: #000; aspect-ratio: 16 / 9; margin-bottom: 20px; border-radius: 8px; overflow: hidden; align-items: center; justify-content: center; color: #606060; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        #video-info.visible { display: block; margin-bottom: 40px; }
+        #video-player { width: 100%; height: 100%; border: none; }
+        #video-info h2 { font-size: 1.8em; margin-bottom: 10px; }
+        #video-info p { color: var(--text-secondary); }
+        #results-container h3 { font-size: 1.5em; margin-bottom: 20px; font-weight: 700; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; position: relative; /* Wichtig für die Positionierung des Loaders */ }
+        .result-item, .category-item { background-color: var(--card-color); border-radius: 8px; transition: all var(--transition-fast); position: relative; opacity: 0; transform: translateY(20px); animation: fadeIn 0.5s forwards; }
+        .result-item:hover, .category-item:hover { background-color: var(--card-hover-color); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .result-item { padding: 16px; }
+        .result-item .thumbnail-container { position: relative; cursor: pointer; }
+        .result-item .thumbnail { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: block; }
+        .result-title { font-weight: 700; font-size: 1em; margin-bottom: 5px; line-height: 1.3; height: 2.6em; overflow: hidden; cursor: pointer; }
+        .result-author { font-size: 0.9em; color: var(--text-secondary); }
+        .favorite-btn { position: absolute; bottom: 20px; right: 8px; font-size: 1.2em; color: var(--text-secondary); cursor: pointer; transition: color 0.2s, transform 0.2s; z-index: 10; }
+        .favorite-btn:hover { transform: scale(1.2); }
+        .favorite-btn.is-favorite { color: var(--heart-color); }
+        .category-item { padding: 20px; text-align: center; font-size: 1.2em; font-weight: 700; cursor: pointer; }
+        
+        /* --- NEUER LADE-SPINNER (VON CODEPEN) --- */
+        .loader {
+            position: absolute;
+            top: calc(50% - 32px);
+            left: calc(50% - 32px);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            perspective: 800px;
+            margin-top: 50px; /* Etwas Abstand nach oben */
+        }
+        .loader .inner {
+            position: absolute;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .loader .inner.one {
+            left: 0%;
+            top: 0%;
+            animation: rotate-one 1s linear infinite;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        .loader .inner.two {
+            right: 0%;
+            top: 0%;
+            animation: rotate-two 1s linear infinite;
+            border-right: 3px solid var(--text-primary);
+        }
+        .loader .inner.three {
+            right: 0%;
+            bottom: 0%;
+            animation: rotate-three 1s linear infinite;
+            border-top: 3px solid var(--heart-color);
+        }
+        @keyframes rotate-one { 0% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg); } 100% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg); } }
+        @keyframes rotate-two { 0% { transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg); } 100% { transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg); } }
+        @keyframes rotate-three { 0% { transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg); } 100% { transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg); } }
+        /* --- ENDE DES NEUEN SPINNERS --- */
+
+        .now-playing-bar { grid-row: 2 / 3; grid-column: 1 / 3; background-color: #181818; border-top: 1px solid #282828; height: 90px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .now-playing-left { display: flex; align-items: center; }
+        #now-playing-thumb { width: 56px; height: 56px; background-color: #333; border-radius: 4px; margin-right: 15px; object-fit: cover; }
+        #now-playing-title { font-weight: 700; }
+        #now-playing-author { font-size: 0.8em; color: var(--text-secondary); }
+        .content-wrapper::-webkit-scrollbar { width: 12px; }
+        .content-wrapper::-webkit-scrollbar-track { background: transparent; }
+        .content-wrapper::-webkit-scrollbar-thumb { background-color: hsla(0,0%,100%,.3); border-radius: 6px; }
+        .content-wrapper::-webkit-scrollbar-thumb:hover { background-color: hsla(0,0%,100%,.5); }
+    </style>
+</head>
+<body>
+    <!-- Der Rest des Body-Tags bleibt exakt gleich -->
+    <aside class="sidebar">
+        <div class="logo"><i class="fab fa-youtube"></i> DavidTube</div>
+        <nav>
+            <ul>
+                <li><a href="#" id="nav-home" class="nav-item active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" id="nav-discover" class="nav-item"><i class="fas fa-compass"></i> Entdecken</a></li>
+                <li><a href="#" id="nav-favorites" class="nav-item"><i class="fas fa-heart"></i> Favoriten</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-view">
+        <header class="main-header">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Was möchtest du sehen?">
+            </div>
+        </header>
+        <div class="content-wrapper">
+            <div id="video-player-container">
+                <iframe id="video-player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div id="video-info">
+                <h2 id="video-title"></h2>
+                <p id="video-author"></p>
+            </div>
+            <div id="results-container">
+                <h3></h3>
+                <div class="results-grid"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="now-playing-bar">
+        <div class="now-playing-left">
+            <img id="now-playing-thumb" src="youtube.ico" alt="App Icon">
+            <div>
+                <p id="now-playing-title">Nichts spielt gerade</p>
+                <p id="now-playing-author"></p>
+            </div>
+        </div>
+    </footer>
+    <script src="./renderer.js"></script>
+</body>
+</html>
