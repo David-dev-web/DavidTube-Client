@@ -1,33 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- WIEDERVERWENDBARE TYPEWRITER-FUNKTION ---
-    function startTypewriter(element) {
-        if (!element || element.hasAttribute('data-typed')) return;
+    function startTypewriter(element, onComplete) {
+        if (!element || element.hasAttribute('data-typed')) {
+            if(onComplete) onComplete();
+            return;
+        }
 
         const textToType = element.dataset.text || element.textContent;
-        element.textContent = ''; // Leert den Inhalt
-        element.setAttribute('data-typed', 'true'); // Markiert als getippt
+        element.textContent = '';
+        element.setAttribute('data-typed', 'true');
         let charIndex = 0;
 
         function type() {
             if (charIndex < textToType.length) {
                 element.textContent += textToType.charAt(charIndex);
                 charIndex++;
-                setTimeout(type, 30); // Schnellere Tipp-Geschwindigkeit für Antworten
+                setTimeout(type, 20); // Etwas schnellere Tipp-Geschwindigkeit
             } else {
                 setTimeout(() => {
                     element.classList.remove('typing');
-                }, 1000); // Cursor verschwindet nach 1 Sekunde
+                }, 1000);
+                if (onComplete) onComplete(); // Ruft die Callback-Funktion auf, wenn fertig
             }
         }
         element.classList.add('typing');
-        setTimeout(type, 200); // Kurze Verzögerung vor dem Start
+        setTimeout(type, 100);
     }
 
     // --- TYPEWRITER FÜR DIE UNTERÜBERSCHRIFT ---
     const typewriterSubtitle = document.getElementById('typewriter-subtitle');
     if (typewriterSubtitle) {
-        // Wir setzen den Text hier, damit er nicht im HTML steht
         typewriterSubtitle.dataset.text = "Schnell, modern und ohne Ablenkungen. Konzentriere dich auf das, was zählt: die Videos.";
         setTimeout(() => startTypewriter(typewriterSubtitle), 800);
     }
@@ -62,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollY = window.scrollY;
     });
 
-    // --- FAQ-AKKORDEON LOGIK MIT TYPEWRITER ---
+    // --- FAQ-AKKORDEON LOGIK (KORRIGIERTE VERSION) ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
@@ -73,10 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = item.classList.contains('active');
 
             if (!isActive) {
+                // Erst den Text setzen (unsichtbar), um die Höhe zu messen
+                if (!answerP.hasAttribute('data-typed')) {
+                    answerP.textContent = answerP.dataset.text;
+                }
+                const fullHeight = answerP.scrollHeight;
+                answerP.textContent = ''; // Wieder leeren für den Typewriter
+
+                // Jetzt die Animation starten
                 item.classList.add('active');
-                answerWrapper.style.maxHeight = answerWrapper.scrollHeight + 'px';
+                answerWrapper.style.maxHeight = fullHeight + 'px';
+                
                 // Starte den Typewriter für die Antwort
                 startTypewriter(answerP);
+
             } else {
                 item.classList.remove('active');
                 answerWrapper.style.maxHeight = 0;
