@@ -68,6 +68,7 @@ body {
     text-align: center;
 }
 
+/* HIER IST DIE ÄNDERUNG: Styling für den Logo-Link */
 .logo-link {
     text-decoration: none;
     transition: transform 0.2s ease;
@@ -149,6 +150,7 @@ body {
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Startzustand: Kreis */
 .nav-button {
     height: 40px;
     width: 40px;
@@ -161,6 +163,7 @@ body {
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
+/* Startzustand: Text unsichtbar, Icon sichtbar */
 .button-text {
     position: absolute;
     white-space: nowrap;
@@ -178,6 +181,7 @@ body {
     stroke: #000;
 }
 
+/* Hover-Zustand: Rechteck */
 .morph-button:hover {
     background-color: var(--accent-hover);
     box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
@@ -189,6 +193,7 @@ body {
     width: 250px;
 }
 
+/* Hover-Zustand: Text sichtbar, Icon unsichtbar */
 .morph-button:hover .button-text {
     opacity: 1;
     transform: scale(1);
@@ -273,4 +278,139 @@ body {
     color: var(--text-primary);
 }
 
-/*
+/* === TEXT-ANIMATION === */
+.animate-title .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(50px) scale(0.5);
+    will-change: opacity, transform;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border-color);
+}
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 25px 0;
+    text-align: left;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: none;
+}
+.faq-icon {
+    font-size: 1.5em;
+    font-weight: 400;
+    transition: transform 0.3s ease;
+}
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    color: var(--text-secondary);
+    font-size: 1.1em;
+}
+.faq-answer p {
+    margin: 0;
+    padding: 0 0 25px 0;
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    padding: 50px 0;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+footer p {
+    margin: 0 0 10px 0;
+}
+.footer-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+.footer-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* === SCROLL-REVEAL-ANIMATIONEN === */
+.hero-title, .cta-button, .feature-item, .gallery-item, .faq-item {
+    opacity: 0;
+    transform: translateY(40px);
+    will-change: opacity, transform;
+}
+.hero-subtitle {
+    opacity: 1;
+}
+.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* === RESPONSIVE DESIGN / MOBILE OPTIMIERUNG === */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3em;
+    }
+    .section-title {
+        font-size: 2em;
+    }
+    .features, .gallery {
+        padding: 50px 0;
+    }
+    .nav-button {
+        display: none;
+    }
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5em;
+    }
+    .hero-subtitle {
+        font-size: 1em;
+        min-height: 80px;
+    }
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+}
+
+/* HIER IST DIE ÄNDERUNG: Optimierung für Touch-Geräte */
+@media (hover: none) {
+    .cursor-dot {
+        display: none;
+    }
+    body {
+        cursor: auto;
+    }
+    /* Zeigt den Button immer in voller Breite an, wenn kein Hover möglich ist */
+    .nav-button {
+        width: 120px;
+    }
+    .cta-button {
+        width: 250px;
+    }
+    .button-text {
+        opacity: 1;
+        transform: scale(1);
+    }
+    .button-icon {
+        display: none; /* Icon komplett ausblenden */
+    }
+}
