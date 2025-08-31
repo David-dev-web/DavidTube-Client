@@ -126,8 +126,8 @@ body {
     50% { opacity: 0; }
 }
 
-/* === REVERSE MORPHING BUTTONS (MIT TEXT-STRETCH) === */
-.morph-button {
+/* === NEU: RIPPLE/REVEAL BUTTON EFFECT === */
+.nav-button, .cta-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -137,62 +137,42 @@ body {
     text-decoration: none;
     border-radius: 50px;
     position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden; /* Wichtig, damit der Kreis nicht über den Rand hinaus sichtbar ist */
+    z-index: 1; /* Stellt sicher, dass der Button über normalen Elementen liegt */
+    transition: color 0.4s ease-out;
 }
-
-/* Startzustand: Kreis */
 .nav-button {
-    height: 40px;
-    width: 40px;
+    padding: 10px 25px;
     font-size: 0.9em;
 }
 .cta-button {
-    height: 54px;
-    width: 54px;
+    padding: 15px 40px;
     font-size: 1.1em;
     box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
 }
 
-/* Startzustand: Text unsichtbar & gestaucht, Icon sichtbar */
-.button-text {
+/* Das ist der Kreis, der aus der Mitte wächst */
+.nav-button::before, .cta-button::before {
+    content: '';
     position: absolute;
-    white-space: nowrap; /* Verhindert unschönen Zeilenumbruch während der Animation */
-    opacity: 0;
-    transform: scaleX(0); /* Der Text ist horizontal gestaucht */
-    transform-origin: center center; /* Stauchen zur Mitte hin */
-    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.button-icon {
-    position: absolute;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.button-icon svg {
-    stroke: #000;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 100%; /* Sorgt für ein perfektes Seitenverhältnis */
+    background-color: var(--accent-hover);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: -1; /* Liegt HINTER dem Text */
 }
 
-/* Hover-Zustand: Rechteck */
-.morph-button:hover {
-    background-color: var(--accent-hover);
-    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
-}
-.nav-button:hover {
-    width: 120px;
+/* Der Hover-Effekt */
+.nav-button:hover::before, .cta-button:hover::before {
+    transform: translate(-50%, -50%) scale(2.5); /* Skaliert den Kreis auf eine riesige Größe */
 }
 .cta-button:hover {
-    width: 250px;
-}
-
-/* Hover-Zustand: Text sichtbar & gestreckt, Icon unsichtbar */
-.morph-button:hover .button-text {
-    opacity: 1;
-    transform: scaleX(1); /* Der Text wird auf seine volle Breite gedehnt */
-}
-.morph-button:hover .button-icon {
-    opacity: 0;
-    transform: scale(0);
+    box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
 }
 
 .version-info {
@@ -361,9 +341,6 @@ footer p {
     .features, .gallery {
         padding: 50px 0;
     }
-    .nav-button {
-        display: none;
-    }
     .gallery-grid {
         grid-template-columns: 1fr;
     }
@@ -387,17 +364,5 @@ footer p {
     }
     body {
         cursor: auto;
-    }
-    /* Auf Touch-Geräten macht der Morph-Effekt keinen Sinn, also stellen wir sicher, dass der Text immer sichtbar ist */
-    .morph-button {
-        width: auto;
-        padding: 0 20px;
-    }
-    .button-text {
-        opacity: 1;
-        transform: scaleX(1);
-    }
-    .button-icon {
-        display: none;
     }
 }
