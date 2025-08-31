@@ -61,40 +61,47 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // --- NEU: GSAP TEXT-ANIMATION BEIM SCROLLEN ---
+    // --- GSAP TEXT-ANIMATION BEIM SCROLLEN (Verbesserte Version) ---
     gsap.registerPlugin(ScrollTrigger);
 
-    const titlesToAnimate = document.querySelectorAll('.animate-title');
-
-    titlesToAnimate.forEach(title => {
-        // 1. Text in Buchstaben aufteilen und mit <span> umschließen
+    document.querySelectorAll('.animate-title').forEach(title => {
+        // 1. Text in Buchstaben aufteilen
         const text = title.textContent;
         title.innerHTML = ''; // Leert die Überschrift
+
+        // Wir erstellen für jeden Buchstaben ein <span>
         text.split('').forEach(char => {
-            // Wenn es ein Leerzeichen ist, füge es normal hinzu
-            if (char === ' ') {
-                title.innerHTML += ' ';
-            } else {
-                const span = document.createElement('span');
-                span.className = 'char';
-                span.textContent = char;
-                title.appendChild(span);
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+            // Wichtig: Ein Leerzeichen muss als solches erhalten bleiben, damit der Zeilenumbruch funktioniert
+            if (char.trim() === '') {
+                span.style.display = 'inline'; 
             }
+            title.appendChild(span);
         });
 
         // 2. GSAP-Animation für diese Buchstaben erstellen
-        gsap.to(title.querySelectorAll('.char'), {
-            opacity: 1,
-            transform: 'translateY(0) scale(1)',
-            duration: 0.5,
-            stagger: 0.05, // Verzögerung zwischen den Buchstaben
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: title,
-                start: 'top 80%', // Startet, wenn 80% der Überschrift von unten sichtbar sind
-                toggleActions: 'play none none none' // Spielt die Animation einmal ab und das war's
+        gsap.fromTo(title.querySelectorAll('.char'), 
+            { // Start-Zustand (aus dem CSS)
+                opacity: 0,
+                y: 50, // y ist eine Kurzform für translateY
+                scale: 0.5
+            },
+            { // End-Zustand (wohin animiert wird)
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.5,
+                stagger: 0.05, // Verzögerung zwischen den Buchstaben
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 85%', // Startet, wenn 85% der Überschrift von unten sichtbar sind
+                    toggleActions: 'play none none reverse' // Spielt ab, wenn man reinscrollt, und rückwärts, wenn man wieder rausscrollt
+                }
             }
-        });
+        );
     });
 
 });
