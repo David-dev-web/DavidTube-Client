@@ -20,6 +20,21 @@
             --accent-color: #1DB954;
             --heart-color: #ff4f4f;
             --transition-fast: 0.2s ease-in-out;
+            --border-color: #333333;
+            --error-color: #ff4f4f;
+            --success-color: #1DB954;
+        }
+        
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --sidebar-color: #f8f9fa;
+            --main-color: #ffffff;
+            --card-color: #f8f9fa;
+            --card-hover-color: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: var(--font-family ); background-color: var(--bg-color); color: var(--text-primary); display: grid; grid-template-rows: 1fr auto; grid-template-columns: auto 1fr; height: 100vh; overflow: hidden; }
@@ -61,52 +76,176 @@
         .favorite-btn.is-favorite { color: var(--heart-color); }
         .category-item { padding: 20px; text-align: center; font-size: 1.2em; font-weight: 700; cursor: pointer; }
         
-        /* --- NEUER LADE-SPINNER (VON CODEPEN) --- */
+        /* --- NEUER COOLER LADE-SPINNER --- */
         .loader {
             position: absolute;
-            top: calc(50% - 32px);
-            left: calc(50% - 32px);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            perspective: 800px;
-            margin-top: 50px; /* Etwas Abstand nach oben */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            margin-top: 50px;
         }
+        
         .loader .inner {
             position: absolute;
-            box-sizing: border-box;
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            border: 4px solid transparent;
+            border-top: 4px solid var(--accent-color);
+            animation: spin 1.2s linear infinite;
         }
+        
         .loader .inner.one {
-            left: 0%;
-            top: 0%;
-            animation: rotate-one 1s linear infinite;
-            border-bottom: 3px solid var(--accent-color);
+            animation-delay: 0s;
+            border-top-color: var(--accent-color);
         }
+        
         .loader .inner.two {
-            right: 0%;
-            top: 0%;
-            animation: rotate-two 1s linear infinite;
-            border-right: 3px solid var(--text-primary);
+            animation-delay: 0.2s;
+            border-top-color: var(--heart-color);
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
         }
+        
         .loader .inner.three {
-            right: 0%;
-            bottom: 0%;
-            animation: rotate-three 1s linear infinite;
-            border-top: 3px solid var(--heart-color);
+            animation-delay: 0.4s;
+            border-top-color: var(--text-primary);
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
         }
-        @keyframes rotate-one { 0% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg); } 100% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg); } }
-        @keyframes rotate-two { 0% { transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg); } 100% { transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg); } }
-        @keyframes rotate-three { 0% { transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg); } 100% { transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg); } }
-        /* --- ENDE DES NEUEN SPINNERS --- */
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Alternative: Pulsierender Ladekreis */
+        .loader.pulse {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .loader.pulse .inner {
+            width: 100%;
+            height: 100%;
+            border: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        
+        /* Alternative: Bouncing Dots */
+        .loader.bouncing {
+            display: flex;
+            gap: 8px;
+            width: auto;
+            height: auto;
+        }
+        
+        .loader.bouncing .inner {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+        
+        .loader.bouncing .inner.one { animation-delay: -0.32s; }
+        .loader.bouncing .inner.two { animation-delay: -0.16s; }
+        .loader.bouncing .inner.three { animation-delay: 0s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        /* --- ENDE DES COOLEN LADE-SPINNERS --- */
 
         .now-playing-bar { grid-row: 2 / 3; grid-column: 1 / 3; background-color: #181818; border-top: 1px solid #282828; height: 90px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
         .now-playing-left { display: flex; align-items: center; }
         #now-playing-thumb { width: 56px; height: 56px; background-color: #333; border-radius: 4px; margin-right: 15px; object-fit: cover; }
         #now-playing-title { font-weight: 700; }
         #now-playing-author { font-size: 0.8em; color: var(--text-secondary); }
+        
+        /* Einstellungsseite Styles */
+        .settings-page { display: none; }
+        .settings-page.visible { display: block; }
+        .settings-section { background-color: var(--card-color); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .settings-section h3 { margin: 0 0 16px 0; font-size: 1.2em; color: var(--text-primary); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-primary); }
+        .form-group input { width: 100%; padding: 12px 16px; font-size: 1em; border: 2px solid #333; border-radius: 8px; background-color: #282828; color: var(--text-primary); outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+        .form-group input:focus { border-color: var(--accent-color); }
+        .btn-primary { background-color: var(--accent-color); color: var(--text-primary); border: none; padding: 12px 24px; font-size: 1em; font-weight: 500; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .btn-primary:hover { background-color: #1ed760; transform: translateY(-1px); }
+        .btn-secondary { background-color: transparent; color: var(--text-secondary); border: 2px solid #333; padding: 12px 24px; font-size: 1em; font-weight: 500; border-radius: 6px; cursor: pointer; transition: all 0.2s; margin-left: 12px; }
+        .btn-secondary:hover { border-color: var(--text-primary); color: var(--text-primary); }
+        .api-key-status { display: flex; align-items: center; margin-bottom: 16px; }
+        .status-indicator { width: 12px; height: 12px; border-radius: 50%; margin-right: 12px; }
+        .status-indicator.valid { background-color: var(--accent-color); }
+        .status-indicator.invalid { background-color: var(--heart-color); }
+        .status-text { font-size: 0.9em; color: var(--text-secondary); }
+        
+        /* API-Key Fehler Styles */
+        .api-key-error { text-align: center; padding: 40px 20px; }
+        .error-icon { font-size: 3em; margin-bottom: 20px; }
+        .api-key-error h3 { margin: 0 0 16px 0; color: var(--text-primary); }
+        .api-key-error p { color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+        
+        /* Theme Toggle */
+        .theme-toggle { position: absolute; top: 20px; right: 20px; z-index: 1000; }
+        .theme-toggle button { background: var(--card-color); border: 2px solid var(--border-color); color: var(--text-primary); padding: 8px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+        .theme-toggle button:hover { background: var(--accent-color); border-color: var(--accent-color); }
+        
+        /* Playlist System */
+        .playlist-section { background-color: var(--card-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .playlist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .playlist-title { font-size: 1.2em; font-weight: 700; color: var(--text-primary); }
+        .playlist-controls { display: flex; gap: 10px; }
+        .playlist-item { display: flex; align-items: center; padding: 12px; background-color: var(--card-hover-color); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+        .playlist-item:hover { background-color: var(--accent-color); transform: translateX(5px); }
+        .playlist-item img { width: 60px; height: 45px; border-radius: 4px; margin-right: 12px; object-fit: cover; }
+        .playlist-item-info { flex: 1; }
+        .playlist-item-title { font-weight: 600; margin-bottom: 4px; }
+        .playlist-item-author { font-size: 0.9em; color: var(--text-secondary); }
+        .playlist-item-remove { color: var(--heart-color); cursor: pointer; padding: 4px; }
+        
+        /* Playlist Add Button */
+        .playlist-add-btn { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.8); color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; transition: all 0.2s; opacity: 0; }
+        .thumbnail-container:hover .playlist-add-btn { opacity: 1; }
+        .playlist-add-btn:hover { background: var(--accent-color); transform: scale(1.1); }
+        
+        /* Video Download Button */
+        .download-btn { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; transition: all 0.2s; }
+        .download-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); }
+        
+        /* Advanced Search Filters */
+        .search-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-group { display: flex; align-items: center; gap: 8px; }
+        .filter-group label { color: var(--text-secondary); font-size: 0.9em; }
+        .filter-group select, .filter-group input { background: var(--card-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 6px 10px; border-radius: 4px; font-size: 0.9em; }
+        .filter-group select:focus, .filter-group input:focus { border-color: var(--accent-color); outline: none; }
+        
+        /* Notification System */
+        .notification { position: fixed; top: 20px; right: 20px; background: var(--accent-color); color: white; padding: 16px 20px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: translateX(400px); transition: transform 0.3s ease; z-index: 10000; }
+        .notification.show { transform: translateX(0); }
+        .notification.error { background: var(--heart-color); }
+        .notification.success { background: var(--accent-color); }
+        
+        /* Loading States */
+        .skeleton { background: linear-gradient(90deg, var(--card-color) 25%, var(--card-hover-color) 50%, var(--card-color) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
         .content-wrapper::-webkit-scrollbar { width: 12px; }
         .content-wrapper::-webkit-scrollbar-track { background: transparent; }
         .content-wrapper::-webkit-scrollbar-thumb { background-color: hsla(0,0%,100%,.3); border-radius: 6px; }
@@ -122,6 +261,8 @@
                 <li><a href="#" id="nav-home" class="nav-item active"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="#" id="nav-discover" class="nav-item"><i class="fas fa-compass"></i> Entdecken</a></li>
                 <li><a href="#" id="nav-favorites" class="nav-item"><i class="fas fa-heart"></i> Favoriten</a></li>
+                <li><a href="#" id="nav-playlists" class="nav-item"><i class="fas fa-list"></i> Playlists</a></li>
+                <li><a href="#" id="nav-settings" class="nav-item"><i class="fas fa-cog"></i> Einstellungen</a></li>
             </ul>
         </nav>
     </aside>
@@ -131,18 +272,115 @@
                 <i class="fas fa-search"></i>
                 <input type="text" id="search-input" placeholder="Was möchtest du sehen?">
             </div>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </header>
+        
+        <!-- Advanced Search Filters -->
+        <div class="search-filters" id="search-filters" style="display: none;">
+            <div class="filter-group">
+                <label>Sortierung:</label>
+                <select id="sort-filter">
+                    <option value="relevance">Relevanz</option>
+                    <option value="date">Datum</option>
+                    <option value="rating">Bewertung</option>
+                    <option value="viewCount">Aufrufe</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Zeitraum:</label>
+                <select id="time-filter">
+                    <option value="">Alle Zeit</option>
+                    <option value="hour">Letzte Stunde</option>
+                    <option value="today">Heute</option>
+                    <option value="week">Diese Woche</option>
+                    <option value="month">Diesen Monat</option>
+                    <option value="year">Dieses Jahr</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Qualität:</label>
+                <select id="quality-filter">
+                    <option value="">Alle Qualitäten</option>
+                    <option value="4k">4K</option>
+                    <option value="1080p">1080p</option>
+                    <option value="720p">720p</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Dauer:</label>
+                <select id="duration-filter">
+                    <option value="">Alle Längen</option>
+                    <option value="short">Kurz (< 4 min)</option>
+                    <option value="medium">Mittel (4-20 min)</option>
+                    <option value="long">Lang (> 20 min)</option>
+                </select>
+            </div>
+        </div>
         <div class="content-wrapper">
             <div id="video-player-container">
                 <iframe id="video-player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <!-- Download Button -->
+                <button class="download-btn" id="download-btn" style="display: none;">
+                    <i class="fas fa-download"></i> Download
+                </button>
             </div>
             <div id="video-info">
                 <h2 id="video-title"></h2>
                 <p id="video-author"></p>
             </div>
+            
+            <!-- Playlist Section -->
+            <div id="playlist-section" class="playlist-section" style="display: none;">
+                <div class="playlist-header">
+                    <div class="playlist-title">Aktuelle Wiedergabeliste</div>
+                    <div class="playlist-controls">
+                        <button id="playlist-clear-btn" class="btn-secondary">Liste leeren</button>
+                        <button id="playlist-save-btn" class="btn-primary">Liste speichern</button>
+                    </div>
+                </div>
+                <div id="playlist-items"></div>
+            </div>
             <div id="results-container">
                 <h3></h3>
                 <div class="results-grid"></div>
+            </div>
+            
+            <!-- Einstellungsseite -->
+            <div id="settings-page" class="settings-page">
+                <h2>Einstellungen</h2>
+                
+                <div class="settings-section">
+                    <h3>YouTube API-Schlüssel</h3>
+                    <div class="api-key-status">
+                        <div id="api-status-indicator" class="status-indicator"></div>
+                        <span id="api-status-text" class="status-text">Status wird überprüft...</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-api-key">API-Schlüssel:</label>
+                        <input type="password" id="settings-api-key" placeholder="Dein YouTube API-Schlüssel">
+                    </div>
+                    <button id="update-api-key-btn" class="btn-primary">API-Schlüssel aktualisieren</button>
+                    <button id="test-api-key-btn" class="btn-secondary">Testen</button>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>App-Informationen</h3>
+                    <p><strong>Version:</strong> 4.0</p>
+                    <p><strong>Entwickler:</strong> David</p>
+                    <p><strong>Technologie:</strong> Electron, YouTube Data API v3</p>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>App neu starten</h3>
+                    <p>Starte die App neu, um alle Einstellungen zu übernehmen.</p>
+                    <button id="restart-app-btn" class="btn-secondary">App neu starten</button>
+                </div>
             </div>
         </div>
     </main>
@@ -155,6 +393,10 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Notification System -->
+    <div id="notification" class="notification"></div>
+    
     <script src="./renderer.js"></script>
 </body>
 </html>

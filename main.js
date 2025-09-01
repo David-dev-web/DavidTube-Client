@@ -1,6 +1,6 @@
-// main.js (Version 3.0 - Welcome Screen)
+// main.js (Version 4.0 - API Key Management)
 
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const Store = require('./store.js');
 
@@ -8,7 +8,9 @@ const Store = require('./store.js');
 const store = new Store({
     configName: 'app-settings',
     defaults: {
-        welcomeShown: false
+        welcomeShown: false,
+        apiKey: null,
+        apiKeyValidated: false
     }
 });
 
@@ -42,14 +44,15 @@ function createMainWindow() {
 
 function createWelcomeWindow() {
     welcomeWindow = new BrowserWindow({
-        width: 500,
-        height: 400,
+        width: 600,
+        height: 700,
         frame: false, // Rahmenloses Fenster
         resizable: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
-        }
+        },
+        icon: path.join(__dirname, 'youtube.ico')
     });
 
     welcomeWindow.loadFile('welcome.html');
@@ -59,9 +62,16 @@ function createWelcomeWindow() {
     });
 }
 
+// Prüfe, ob die App bereits konfiguriert ist
+function isAppConfigured() {
+    const apiKey = store.get('apiKey');
+    const apiKeyValidated = store.get('apiKeyValidated');
+    return apiKey && apiKeyValidated;
+}
+
 app.whenReady().then(() => {
-    // Prüfe, ob der Willkommensbildschirm schon gezeigt wurde
-    if (store.get('welcomeShown')) {
+    // Prüfe, ob die App bereits konfiguriert ist
+    if (isAppConfigured()) {
         createMainWindow();
     } else {
         createWelcomeWindow();
@@ -69,7 +79,7 @@ app.whenReady().then(() => {
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            if (store.get('welcomeShown')) {
+            if (isAppConfigured()) {
                 createMainWindow();
             } else {
                 createWelcomeWindow();
@@ -79,12 +89,51 @@ app.whenReady().then(() => {
 });
 
 // Lausche auf die Nachricht vom Willkommens-Fenster
-ipcMain.on('close-welcome-and-show-main', () => {
-    store.set('welcomeShown', true); // Merken, dass der Screen gezeigt wurde
-    if (welcomeWindow) {
-        welcomeWindow.close();
+ipcMain.on('setup-complete', (event, data) => {
+    try {
+        // API-Key sicher speichern
+        store.set('apiKey', data.apiKey);
+        store.set('apiKeyValidated', true);
+        store.set('welcomeShown', true);
+        
+        // Willkommens-Fenster schließen und Hauptfenster öffnen
+        if (welcomeWindow) {
+            welcomeWindow.close();
+        }
+        createMainWindow();
+        
+    } catch (error) {
+        console.error('Fehler beim Speichern des API-Schlüssels:', error);
+        // Fehlermeldung an den Benutzer anzeigen
+        dialog.showErrorBox('Fehler', 'Der API-Schlüssel konnte nicht gespeichert werden. Bitte versuche es erneut.');
     }
-    createMainWindow();
+});
+
+// IPC-Handler für API-Key-Verwaltung
+ipcMain.handle('get-api-key', () => {
+    return store.get('apiKey');
+});
+
+ipcMain.handle('is-api-key-valid', () => {
+    return store.get('apiKeyValidated');
+});
+
+// IPC-Handler für API-Key-Änderung
+ipcMain.handle('update-api-key', async (event, newApiKey) => {
+    try {
+        store.set('apiKey', newApiKey);
+        store.set('apiKeyValidated', true);
+        return { success: true };
+    } catch (error) {
+        console.error('Fehler beim Aktualisieren des API-Schlüssels:', error);
+        return { success: false, error: error.message };
+    }
+});
+
+// IPC-Handler für App-Neustart
+ipcMain.handle('restart-app', () => {
+    app.relaunch();
+    app.exit();
 });
 
 app.on('window-all-closed', () => {
