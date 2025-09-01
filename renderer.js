@@ -31,7 +31,7 @@ const nowPlayingAuthor = document.getElementById('now-playing-author');
 // =================================================================
 // API-SCHLÜSSEL & KONSTANTEN
 // =================================================================
-const apiKey = 'AIzaSyCr0Zdj9xegV4EBWHqyFMJAG1yK56IG3TA';
+const apiKey = 'DEIN_API_SCHLÜSSEL_HIER_EINFÜGEN';
 const CATEGORIES = {
     'Musik': '10',
     'Gaming': '20',
