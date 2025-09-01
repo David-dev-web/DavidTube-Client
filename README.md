@@ -3,7 +3,7 @@
 Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, HTML, CSS und reinem JavaScript. **Version 5.0** bringt revolutionäre neue Features: **Playlist-System**, **Theme-Toggle**, **Download-Funktionalität** und **erweiterte Suchfilter**!
 
 ## 🌟 Neue Features in Version 5.0
-=======
+
 ### 🌐 Live-Demo
 
 Erlebe eine interaktive Vorschau des Projekts hier:
