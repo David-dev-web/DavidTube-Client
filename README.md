@@ -2,13 +2,14 @@
 
 Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, HTML, CSS und reinem JavaScript. Dieses Projekt ist eine Demonstration, wie man mit Web-Technologien eine native Desktop-Anwendung erstellen kann, die mit der YouTube Data API v3 interagiert.
 
-## 🌐 Live Demo
+### 🌐 Live-Demo
 
-**Du kannst eine Live-Web-Version dieses Projekts hier ansehen:**
+Erlebe eine interaktive Vorschau des Projekts hier:
 
-**[https://david-dev-web.github.io/DavidTube-Client/](https://david-dev-web.github.io/DavidTube-Client/ )**
+**[david-dev-web.github.io/DavidTube-Client](https://david-dev-web.github.io/DavidTube-Client/)**
 
-*(Hinweis: Dies ist eine Showsite um zu sehen was das Programm für Features hat)*
+*(Hinweis: Dies ist eine Landing-Page, die die Features der Desktop-Anwendung demonstriert.)*
+
 
 ## ✨ Features
 
