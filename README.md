@@ -2,7 +2,6 @@
 
 Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, HTML, CSS und reinem JavaScript. **Version 5.0** bringt revolutionäre neue Features: **Playlist-System**, **Theme-Toggle**, **Download-Funktionalität** und **erweiterte Suchfilter**!
 
-<<<<<<< HEAD
 ## 🌟 Neue Features in Version 5.0
 =======
 ### 🌐 Live-Demo
@@ -15,7 +14,6 @@ Erlebe eine interaktive Vorschau des Projekts hier:
 
 
 ## ✨ Features
->>>>>>> e2a11d7764b716f6d6d0782bfbb1f6c1917321dc
 
 ### 🎵 **Playlist-System**
 - **Wiedergabelisten erstellen:** Sammle deine Lieblingsvideos in Playlists
@@ -101,7 +99,6 @@ Erlebe eine interaktive Vorschau des Projekts hier:
 
 ### **Build der App:**
 
-```bash
 # App packen
 npm run pack
 
@@ -111,7 +108,6 @@ npm run dist
 
 ## 💡 Gelernte Technologien
 
-<<<<<<< HEAD
 *   **Electron:** Zum Erstellen der Cross-Platform-Desktop-Anwendung
 *   **Node.js:** Für das Backend und die Paketverwaltung
 *   **YouTube Data API v3:** Für das Abrufen von Video-Daten
