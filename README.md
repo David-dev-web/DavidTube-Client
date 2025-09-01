@@ -8,7 +8,7 @@ Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, 
 
 **[https://david-dev-web.github.io/DavidTube-Client/](https://david-dev-web.github.io/DavidTube-Client/ )**
 
-*(Hinweis: Dies ist die Web-Version. Um die volle Desktop-Anwendung mit allen Features zu nutzen, befolge die Installationsanleitung unten.)*
+*(Hinweis: Dies ist eine Shiwsite um zu sehen was das Programm für Features hat)*
 
 ## ✨ Features
 
