@@ -2,7 +2,20 @@
 
 Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, HTML, CSS und reinem JavaScript. **Version 5.0** bringt revolutionäre neue Features: **Playlist-System**, **Theme-Toggle**, **Download-Funktionalität** und **erweiterte Suchfilter**!
 
+<<<<<<< HEAD
 ## 🌟 Neue Features in Version 5.0
+=======
+### 🌐 Live-Demo
+
+Erlebe eine interaktive Vorschau des Projekts hier:
+
+**[david-dev-web.github.io/DavidTube-Client](https://david-dev-web.github.io/DavidTube-Client/)**
+
+*(Hinweis: Dies ist eine Landing-Page, die die Features der Desktop-Anwendung demonstriert.)*
+
+
+## ✨ Features
+>>>>>>> e2a11d7764b716f6d6d0782bfbb1f6c1917321dc
 
 ### 🎵 **Playlist-System**
 - **Wiedergabelisten erstellen:** Sammle deine Lieblingsvideos in Playlists
@@ -98,6 +111,7 @@ npm run dist
 
 ## 💡 Gelernte Technologien
 
+<<<<<<< HEAD
 *   **Electron:** Zum Erstellen der Cross-Platform-Desktop-Anwendung
 *   **Node.js:** Für das Backend und die Paketverwaltung
 *   **YouTube Data API v3:** Für das Abrufen von Video-Daten
@@ -173,4 +187,12 @@ ISC License - siehe LICENSE-Datei für Details.
 ---
 
 **Entwickelt mit ❤️ von David**
+=======
+*   **Electron:** Zum Erstellen der Cross-Platform-Desktop-Anwendung.
+*   **Node.js:** Für das Backend und die Paketverwaltung.
+*   **YouTube Data API v3:** Für das Abrufen von Video-Daten.
+*   **Reines JavaScript (ES6+ ):** Für die gesamte Anwendungslogik (DOM-Manipulation, asynchrone Anfragen).
+*   **CSS3:** Für das Styling und die Animationen (Flexbox, Grid, Keyframes).
+*   **Git & GitHub:** Für die Versionskontrolle.
+>>>>>>> e2a11d7764b716f6d6d0782bfbb1f6c1917321dc
 

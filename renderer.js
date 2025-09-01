@@ -56,7 +56,11 @@ const notification = document.getElementById('notification');
 // =================================================================
 // API-SCHLÜSSEL & KONSTANTEN
 // =================================================================
+<<<<<<< HEAD
 let apiKey = null;
+=======
+const apiKey = 'DEIN_API_SCHLÜSSEL_HIER_EINFÜGEN';
+>>>>>>> e2a11d7764b716f6d6d0782bfbb1f6c1917321dc
 const CATEGORIES = {
     'Musik': '10',
     'Gaming': '20',
