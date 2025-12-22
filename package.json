@@ -1,0 +1,42 @@
+{
+  "name": "davidtube",
+  "version": "5.0.0",
+  "description": "Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": ["youtube", "desktop", "electron", "media", "video"],
+  "author": "David",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^37.4.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.davidtube.app",
+    "productName": "DavidTube",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "youtube.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "youtube.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "youtube.ico"
+    }
+  }
+}
