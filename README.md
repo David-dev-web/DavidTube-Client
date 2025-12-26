@@ -166,7 +166,7 @@ Geplante Features für zukünftige Versionen:
 - 🚀 App-Neustart-Funktionalität
 - 📱 Responsive Design-Verbesserungen
 
-### **Version 3.x**
+### **Version 3.0.0**
 - 🎯 Live-Suche mit Debouncing
 - 💖 Favoriten-System
 - 🎮 Kategorien-Entdeckung
