@@ -1,4 +1,7 @@
-# Dieses Projekt wird nicht mehr aktiv weiterentwickelt und sollte deshalb nicht als Produkt sondern als Experiment angesehen werden
+# ⚠️ Status: Archiviert
+> Dieses Projekt wird nicht mehr aktiv weiterentwickelt und sollte deshalb nicht als fertiges Produkt, sondern als **technisches Experiment** angesehen werden.
+
+---
 
 # 🚀 DavidTube Desktop Client v5.0
 
