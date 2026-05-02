@@ -1,3 +1,5 @@
+# Dieses Projekt wird nicht mehr aktiv weiterentwickelt und sollte deshalb nicht als Produkt sondern als Experiment angesehen werden
+
 # 🚀 DavidTube Desktop Client v5.0
 
 Ein moderner und performanter Desktop-Client für YouTube, gebaut mit Electron, HTML, CSS und reinem JavaScript. **Version 5.0** bringt revolutionäre neue Features: **Playlist-System**, **Theme-Toggle**, **Download-Funktionalität** und **erweiterte Suchfilter**!
